@@ -17,16 +17,16 @@
 | ![Aafi AI](Screenshot/Aafi%20Ai.png) | ![Pill ID](Screenshot/Pill%20Identifier.png) | ![Lab Insight](Screenshot/Lab%20Report%20Insight.png) | ![Symptoms](Screenshot/symptom%20output.png) |
 
 ### Document & Data Insight
+
 | Prescription Analysis | Blood Pressure Record | Critical Alerts | Wearable Integration |
 | :---: | :---: | :---: | :---: |
 | ![Prescription](Screenshot/Prescriptrion%20Analysis.png) | ![BP](Screenshot/Blood%20Pressure%20Record.png) | ![Alert](Screenshot/Critical%20Alert.png) | ![Wearable](Screenshot/Wearable%20Integration.png) |
 
 ### Lifestyle & Motivation
-| Diet Planning | Health Advice | Medicine Reminder | Rewards & Streaks |
-| :---: | : :---: | :---: | :---: |
-| ![Diet](Screenshot/diet.png) | ![Advice](Screenshot/Health%20advice.png) | ![Medicine](Screenshot/Medicine%20Reminder.png) | ![Rewards](Screenshot/Rewards%20and%20Streaks.png) |
 
----
+| Diet Planning | Health Advice | Medicine Reminder | Rewards & Streaks |
+| :---: | :---: | :---: | :---: |
+| ![Diet](Screenshot/diet.png) | ![Advice](Screenshot/Health%20advice.png) | ![Medicine](Screenshot/Medicine%20Reminder.png) | ![Rewards](Screenshot/Rewards%20and%20Streaks.png) |
 
 ## 🚀 Key Features
 
