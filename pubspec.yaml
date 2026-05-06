@@ -1,0 +1,48 @@
+name: aafiyah
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
+  firebase_core: ^3.11.0
+  firebase_auth: ^5.5.0
+  google_sign_in: ^6.0.0
+  cloud_firestore: ^5.6.12
+  google_generative_ai: ^0.4.5
+  image_picker: ^1.1.2
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+  shared_preferences: ^2.3.2
+  health: ^11.0.0
+  permission_handler: ^11.3.1
+  geolocator: ^13.0.2
+  url_launcher: ^6.3.1
+  flutter_markdown: ^0.7.1
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^5.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/aafiya_logo.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/aafiya_logo.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
