@@ -34,125 +34,138 @@ class HomeScreen extends StatelessWidget {
           ),
           
           SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: AppSpacing.lg),
-                  _buildHeader(context, user?.name ?? 'User'),
-                  const SizedBox(height: AppSpacing.xl),
-                  
-                  _buildPulseSection(),
-                  const SizedBox(height: AppSpacing.xl),
-                  
-                  const Text('AI Health Intelligence', style: AppTextStyles.headlineMedium),
-                  const SizedBox(height: AppSpacing.md),
-                  
-                  _buildAIFeatureCard(
-                    context,
-                    title: 'Symptom Genius',
-                    subtitle: 'AI-driven health analysis and guidance',
-                    icon: Icons.psychology_outlined,
-                    color: AppColors.primary,
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.symptom),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  
-                  _buildAIFeatureCard(
-                    context,
-                    title: 'Prescription Vision',
-                    subtitle: 'Extract insights from your prescriptions',
-                    icon: Icons.receipt_long_outlined,
-                    color: AppColors.secondary,
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.prescriptionUpload),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-
-                  _buildAIFeatureCard(
-                    context,
-                    title: 'Lab Report Insight',
-                    subtitle: 'AI analysis of your medical reports',
-                    icon: Icons.analytics_outlined,
-                    color: Colors.purpleAccent,
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.labReport),
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-                  
-                  const Text('Daily Wellness', style: AppTextStyles.headlineMedium),
-                  const SizedBox(height: AppSpacing.md),
-                  
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    crossAxisSpacing: AppSpacing.md,
-                    mainAxisSpacing: AppSpacing.md,
-                    childAspectRatio: 1.5,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildFeatureSquare(context, 'Diet Planner', Icons.restaurant_menu_rounded, Colors.orange, AppRoutes.dietPlanner),
-                      _buildFeatureSquare(context, 'Pill ID', Icons.medication_rounded, Colors.teal, AppRoutes.pillIdentification),
-                      _buildFeatureSquare(context, 'Mood Journal', Icons.mood_rounded, Colors.pinkAccent, AppRoutes.mentalHealth),
-                      _buildFeatureSquare(context, 'Reminders', Icons.alarm_on_rounded, Colors.indigoAccent, AppRoutes.medicationReminder),
+                      const SizedBox(height: AppSpacing.lg),
+                      _buildHeader(context, user?.name ?? 'User'),
+                      const SizedBox(height: AppSpacing.xl),
+                      _buildPulseSection(),
+                      const SizedBox(height: AppSpacing.xl),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.xl),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('AI Health Intelligence', style: AppTextStyles.headlineMedium),
+                        const SizedBox(height: AppSpacing.md),
+                        
+                        _buildAIFeatureCard(
+                          context,
+                          title: 'Symptom Genius',
+                          subtitle: 'AI-driven health analysis and guidance',
+                          icon: Icons.psychology_outlined,
+                          color: AppColors.primary,
+                          onTap: () => Navigator.pushNamed(context, AppRoutes.symptom),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        
+                        _buildAIFeatureCard(
+                          context,
+                          title: 'Prescription Vision',
+                          subtitle: 'Extract insights from your prescriptions',
+                          icon: Icons.receipt_long_outlined,
+                          color: AppColors.secondary,
+                          onTap: () => Navigator.pushNamed(context, AppRoutes.prescriptionUpload),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
 
-                  const Text('Health Tracking', style: AppTextStyles.headlineMedium),
-                  const SizedBox(height: AppSpacing.md),
-                  
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    crossAxisSpacing: AppSpacing.md,
-                    mainAxisSpacing: AppSpacing.md,
-                    children: [
-                      _buildTrackerCard(context, 'Water', Icons.local_drink_outlined, Colors.blue, AppRoutes.waterTracker),
-                      _buildTrackerCard(context, 'Heart', Icons.favorite_border_rounded, Colors.redAccent, AppRoutes.bloodPressure),
-                      _buildTrackerCard(context, 'BMI', Icons.monitor_weight_outlined, AppColors.success, AppRoutes.bmi),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
+                        _buildAIFeatureCard(
+                          context,
+                          title: 'Lab Report Insight',
+                          subtitle: 'AI analysis of your medical reports',
+                          icon: Icons.analytics_outlined,
+                          color: Colors.purpleAccent,
+                          onTap: () => Navigator.pushNamed(context, AppRoutes.labReport),
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        
+                        const Text('Daily Wellness', style: AppTextStyles.headlineMedium),
+                        const SizedBox(height: AppSpacing.md),
+                        
+                        GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: AppSpacing.md,
+                          mainAxisSpacing: AppSpacing.md,
+                          childAspectRatio: 1.5,
+                          children: [
+                            _buildFeatureSquare(context, 'Diet Planner', Icons.restaurant_menu_rounded, Colors.orange, AppRoutes.dietPlanner),
+                            _buildFeatureSquare(context, 'Pill ID', Icons.medication_rounded, Colors.teal, AppRoutes.pillIdentification),
+                            _buildFeatureSquare(context, 'Mood Journal', Icons.mood_rounded, Colors.pinkAccent, AppRoutes.mentalHealth),
+                            _buildFeatureSquare(context, 'Reminders', Icons.alarm_on_rounded, Colors.indigoAccent, AppRoutes.medicationReminder),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
 
-                  const Text('Connectivity & Safety', style: AppTextStyles.headlineMedium),
-                  const SizedBox(height: AppSpacing.md),
-                  
-                  _buildAIFeatureCard(
-                    context,
-                    title: 'Telemedicine',
-                    subtitle: 'Consult with doctors online',
-                    icon: Icons.video_call_outlined,
-                    color: Colors.cyan,
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.telemedicine),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
+                        const Text('Health Tracking', style: AppTextStyles.headlineMedium),
+                        const SizedBox(height: AppSpacing.md),
+                        
+                        GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 3,
+                          crossAxisSpacing: AppSpacing.md,
+                          mainAxisSpacing: AppSpacing.md,
+                          children: [
+                            _buildTrackerCard(context, 'Water', Icons.local_drink_outlined, Colors.blue, AppRoutes.waterTracker),
+                            _buildTrackerCard(context, 'Heart', Icons.favorite_border_rounded, Colors.redAccent, AppRoutes.bloodPressure),
+                            _buildTrackerCard(context, 'BMI', Icons.monitor_weight_outlined, AppColors.success, AppRoutes.bmi),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildSmallCard(context, 'SOS Alert', Icons.emergency_share_rounded, Colors.red, AppRoutes.emergencyAlert),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: _buildSmallCard(context, 'Wearables', Icons.watch_rounded, Colors.blueGrey, AppRoutes.wearable),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  
-                   _buildAIFeatureCard(
-                    context,
-                    title: 'Gamification & Streaks',
-                    subtitle: 'Earn rewards for staying healthy',
-                    icon: Icons.emoji_events_outlined,
-                    color: Colors.amber,
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.gamification),
-                  ),
+                        const Text('Connectivity & Safety', style: AppTextStyles.headlineMedium),
+                        const SizedBox(height: AppSpacing.md),
+                        
+                        _buildAIFeatureCard(
+                          context,
+                          title: 'Telemedicine',
+                          subtitle: 'Consult with doctors online',
+                          icon: Icons.video_call_outlined,
+                          color: Colors.cyan,
+                          onTap: () => Navigator.pushNamed(context, AppRoutes.telemedicine),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
 
-                  const SizedBox(height: 120), // Space for floating assistant
-                ],
-              ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildSmallCard(context, 'SOS Alert', Icons.emergency_share_rounded, Colors.red, AppRoutes.emergencyAlert),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: _buildSmallCard(context, 'Wearables', Icons.watch_rounded, Colors.blueGrey, AppRoutes.wearable),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        
+                         _buildAIFeatureCard(
+                          context,
+                          title: 'Gamification & Streaks',
+                          subtitle: 'Earn rewards for staying healthy',
+                          icon: Icons.emoji_events_outlined,
+                          color: Colors.amber,
+                          onTap: () => Navigator.pushNamed(context, AppRoutes.gamification),
+                        ),
+
+                        const SizedBox(height: 120), // Space for floating assistant
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           

@@ -74,8 +74,12 @@
    ```
 3. **Configure Firebase:**
    - Add your `google-services.json` (Android) and `GoogleService-Info.plist` (iOS).
-4. **Environment Variables:**
-   - Configure your Gemini API key in `lib/core/constants/app_config.dart`.
+4. **API Key Setup:**
+   - To use Aafi AI, you need a Gemini API Key.
+   - Run the app using:
+     ```bash
+     flutter run --dart-define=GEMINI_API_KEY=your_key_here
+     ```
 5. **Run the application:**
    ```bash
    flutter run

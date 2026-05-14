@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/state/app_state.dart';
 import '../../../auth/auth_state.dart';
@@ -19,6 +20,7 @@ class TelemedicineScreen extends StatefulWidget {
 
 class _TelemedicineScreenState extends State<TelemedicineScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final TextEditingController _symptomController = TextEditingController();
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _TelemedicineScreenState extends State<TelemedicineScreen> with SingleTick
   @override
   void dispose() {
     _tabController.dispose();
+    _symptomController.dispose();
     super.dispose();
   }
 
@@ -74,34 +77,88 @@ class _TelemedicineScreenState extends State<TelemedicineScreen> with SingleTick
   }
 
   Widget _buildDoctorsList() {
-    return Consumer<TelemedicineState>(
-      builder: (context, telemedicineState, child) {
+    return Consumer2<TelemedicineState, AppState>(
+      builder: (context, telemedicineState, appState, child) {
         final doctors = telemedicineState.doctors;
         
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Smart AI Suggestion Section
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                style: const TextStyle(color: AppColors.textPrimary),
-                decoration: InputDecoration(
-                  hintText: 'Search for doctors, specialties...',
-                  hintStyle: const TextStyle(color: AppColors.textSecondary),
-                  prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
-                  filled: true,
-                  fillColor: AppColors.surface,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.primary.withOpacity(0.2), AppColors.secondary.withOpacity(0.1)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.auto_awesome, color: AppColors.primary, size: 20),
+                        SizedBox(width: 8),
+                        Text(
+                          'AI Doctor Suggestion',
+                          style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _symptomController,
+                      style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: 'আপনার সমস্যা লিখুন (যেমন: আমার জ্বর হয়েছে)...',
+                        hintStyle: TextStyle(color: AppColors.textSecondary.withOpacity(0.6)),
+                        suffixIcon: IconButton(
+                          icon: appState.isLoading 
+                            ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary))
+                            : const Icon(Icons.send, color: AppColors.primary),
+                          onPressed: () {
+                            if (_symptomController.text.isNotEmpty) {
+                              telemedicineState.getSmartSuggestions(_symptomController.text, appState);
+                            }
+                          },
+                        ),
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (value) {
+                        if (value.isNotEmpty) {
+                          telemedicineState.getSmartSuggestions(value, appState);
+                        }
+                      },
+                    ),
+                    if (telemedicineState.aiSuggestion.isNotEmpty) ...[
+                      const Divider(color: AppColors.glassBorder),
+                      Container(
+                        constraints: const BoxConstraints(maxHeight: 200),
+                        child: SingleChildScrollView(
+                          child: MarkdownBody(
+                            data: telemedicineState.aiSuggestion,
+                            styleSheet: MarkdownStyleSheet(
+                              p: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
             ),
+
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
-                'Top Specialists',
+                'Available Specialists',
                 style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 18,
@@ -113,7 +170,7 @@ class _TelemedicineScreenState extends State<TelemedicineScreen> with SingleTick
               child: doctors.isEmpty 
                 ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
                 : ListView.builder(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: doctors.length,
                     itemBuilder: (context, index) {
                       final doctor = doctors[index];

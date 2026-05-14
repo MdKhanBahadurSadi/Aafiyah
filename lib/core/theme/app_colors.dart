@@ -15,6 +15,6 @@ class AppColors {
   static const Color textSecondary = Color(0xFF94A3B8); // Slate 400
   static const Color divider = Color(0xFF334155); // Slate 700
   
-  static Color glassBackground = Colors.white.withOpacity(0.05);
-  static Color glassBorder = Colors.white.withOpacity(0.1);
+  static const Color glassBackground = Color(0x0DFFFFFF); // White with 0.05 opacity
+  static const Color glassBorder = Color(0x1AFFFFFF); // White with 0.1 opacity
 }

@@ -130,7 +130,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       // If document exists, map it to UserModel
-      final data = snapshot.data()! as Map<String, dynamic>;
+      final data = snapshot.data()!;
       return UserModel.fromJson(data);
     } catch (e) {
       rethrow;

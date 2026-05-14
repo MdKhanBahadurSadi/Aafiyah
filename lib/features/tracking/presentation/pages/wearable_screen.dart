@@ -48,7 +48,7 @@ class _WearableScreenState extends State<WearableScreen> {
       _isLoading = false;
     });
 
-    if (data != null && data.steps >= stepGoal && mounted) {
+    if (data.steps >= stepGoal && mounted) {
       context.read<GamificationState>().recordStepsGoalReached();
     }
   }

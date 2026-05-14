@@ -7,6 +7,9 @@ class DoctorModel {
   final int reviews;
   final String bio;
   final double consultationFee;
+  final double? latitude;
+  final double? longitude;
+  final String? address;
 
   const DoctorModel({
     required this.id,
@@ -17,6 +20,9 @@ class DoctorModel {
     required this.reviews,
     required this.bio,
     required this.consultationFee,
+    this.latitude,
+    this.longitude,
+    this.address,
   });
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +35,9 @@ class DoctorModel {
       reviews: json['reviews'] as int,
       bio: json['bio'] as String,
       consultationFee: (json['consultationFee'] as num).toDouble(),
+      latitude: json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
+      longitude: json['longitude'] != null ? (json['longitude'] as num).toDouble() : null,
+      address: json['address'] as String?,
     );
   }
 
@@ -42,6 +51,9 @@ class DoctorModel {
       'reviews': reviews,
       'bio': bio,
       'consultationFee': consultationFee,
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
     };
   }
 }

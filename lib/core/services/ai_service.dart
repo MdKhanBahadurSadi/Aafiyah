@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import '../constants/app_config.dart';
+import '../../features/telemedicine/models/doctor_model.dart';
 
 class AIService {
   late final GenerativeModel _model;
+// ... (keep existing _systemInstruction)
 
   static const String _systemInstruction = '''
 You are "Aafi", a virtual health and well-being assistant for the Aafiyah app. 
@@ -20,7 +22,7 @@ Your behavior and tone should be that of a practicing Muslim:
 
   AIService() {
     _model = GenerativeModel(
-      model: 'gemini-3.1-flash-lite-preview',
+      model: 'gemini-3.1-flash-lite',
       apiKey: AppConfig.geminiApiKey,
       systemInstruction: Content.system(_systemInstruction),
     );
@@ -73,5 +75,30 @@ Please analyze this lab report image.
 5. Always include a disclaimer that this is not a professional medical diagnosis and they should consult a doctor.
 ''';
     return analyzeImage(prompt, imageFile);
+  }
+
+  Future<String> suggestDoctors({
+    required String symptoms,
+    required List<DoctorModel> doctors,
+    double? userLat,
+    double? userLon,
+  }) async {
+    final doctorListString = doctors.map((d) => 
+      'Name: ${d.name}, Specialty: ${d.specialty}, Bio: ${d.bio}, Address: ${d.address}'
+    ).join('\n');
+
+    final prompt = '''
+Based on the user's symptoms: "$symptoms"
+And their location (Lat: $userLat, Lon: $userLon), suggest the best doctors from the following list:
+$doctorListString
+
+Instructions:
+1. Match the symptoms with the correct medical specialty.
+2. If location is provided, prioritize doctors who are physically closer or in the same area.
+3. Provide your suggestion in a friendly, Islamic tone in Bengali (বাংলা).
+4. Explain WHY you are suggesting these specific doctors.
+5. Limit your suggestion to the top 2-3 matches.
+''';
+    return getCompletion(prompt);
   }
 }

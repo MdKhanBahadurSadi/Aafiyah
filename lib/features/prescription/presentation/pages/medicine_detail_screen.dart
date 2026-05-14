@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:aafiyah/features/prescription/models/medicine_model.dart';
 import 'package:aafiyah/core/constants/app_spacing.dart';
 import 'package:aafiyah/core/theme/app_colors.dart';
-
-import 'package:flutter/material.dart';
-import 'package:aafiyah/features/prescription/models/medicine_model.dart';
-import 'package:aafiyah/core/constants/app_spacing.dart';
-import 'package:aafiyah/core/theme/app_colors.dart';
 import 'package:aafiyah/core/theme/app_text_styles.dart';
 import 'package:aafiyah/core/widgets/glass_card.dart';
 

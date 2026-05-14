@@ -1,3 +1,7 @@
+import '../../firebase_options.dart';
+
 class AppConfig {
-  static const String geminiApiKey = 'YOUR_GEMINI_API_KEY_HERE';
+  /// Gemini API Key obtained from DefaultFirebaseOptions
+  /// This file is ignored by git, so your key remains safe.
+  static const String geminiApiKey = DefaultFirebaseOptions.geminiApiKey;
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
-import 'core/theme/app_colors.dart';
-import 'core/theme/app_text_styles.dart';
 import 'core/navigation/app_routes.dart';
 import 'core/navigation/app_router.dart';
 

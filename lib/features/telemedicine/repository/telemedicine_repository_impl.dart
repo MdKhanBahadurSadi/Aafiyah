@@ -16,6 +16,9 @@ class TelemedicineRepositoryImpl implements TelemedicineRepository {
       reviews: 120,
       bio: 'Expert in primary care with over 10 years of experience.',
       consultationFee: 50.0,
+      latitude: 23.7509,
+      longitude: 90.3935,
+      address: 'Dhanmondi, Dhaka',
     ),
     const DoctorModel(
       id: 'doc2',
@@ -26,6 +29,9 @@ class TelemedicineRepositoryImpl implements TelemedicineRepository {
       reviews: 85,
       bio: 'Specialist in cardiovascular health and preventive medicine.',
       consultationFee: 80.0,
+      latitude: 23.7925,
+      longitude: 90.4078,
+      address: 'Banani, Dhaka',
     ),
     const DoctorModel(
       id: 'doc3',
@@ -36,20 +42,20 @@ class TelemedicineRepositoryImpl implements TelemedicineRepository {
       reviews: 150,
       bio: 'Passionate about child health and developmental care.',
       consultationFee: 60.0,
+      latitude: 23.8103,
+      longitude: 90.4125,
+      address: 'Gulshan, Dhaka',
     ),
   ];
 
   @override
-  Future<List<DoctorModel>> getDoctors() async {
-    try {
-      final snapshot = await _firestore.collection('doctors').get();
+  Stream<List<DoctorModel>> getDoctors() {
+    return _firestore.collection('doctors').snapshots().map((snapshot) {
       if (snapshot.docs.isEmpty) return _mockDoctors;
       return snapshot.docs
           .map((doc) => DoctorModel.fromJson({...doc.data(), 'id': doc.id}))
           .toList();
-    } catch (e) {
-      return _mockDoctors;
-    }
+    }).handleError((_) => _mockDoctors);
   }
 
   @override
@@ -63,13 +69,12 @@ class TelemedicineRepositoryImpl implements TelemedicineRepository {
   }
 
   @override
-  Future<List<AppointmentModel>> getUserAppointments(String userId) async {
-    try {
-      final snapshot = await _firestore
-          .collection('appointments')
-          .where('userId', isEqualTo: userId)
-          .get();
-      
+  Stream<List<AppointmentModel>> getUserAppointments(String userId) {
+    return _firestore
+        .collection('appointments')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) {
       final appointments = snapshot.docs
           .map((doc) => AppointmentModel.fromJson({...doc.data(), 'id': doc.id}))
           .toList();
@@ -78,8 +83,6 @@ class TelemedicineRepositoryImpl implements TelemedicineRepository {
       appointments.sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
       return appointments;
-    } catch (e) {
-      return [];
-    }
+    });
   }
 }

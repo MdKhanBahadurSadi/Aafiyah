@@ -23,7 +23,6 @@ import '../../features/mental_health/presentation/pages/mood_journal_screen.dart
 import '../../features/prescription/presentation/pages/medication_reminder_screen.dart';
 import '../../features/telemedicine/presentation/pages/telemedicine_screen.dart';
 import '../../features/gamification/presentation/pages/gamification_screen.dart';
-import '../../features/home/home_placeholder.dart';
 
 class AppRouter {
   const AppRouter._();
