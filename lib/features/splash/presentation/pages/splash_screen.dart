@@ -79,11 +79,20 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   }
 
   void _navigateToNext() async {
-    await Future.delayed(const Duration(seconds: 4));
+    final startTime = DateTime.now();
+    final authState = Provider.of<AuthState>(context, listen: false);
+
+    // Wait for Firebase's initial persisted-session snapshot before deciding
+    // whether to show login or the authenticated app.
+    await authState.initialization;
+
+    // Ensure minimum splash duration of 2 seconds total
+    final elapsed = DateTime.now().difference(startTime);
+    if (elapsed < const Duration(seconds: 2)) {
+      await Future.delayed(const Duration(seconds: 2) - elapsed);
+    }
+
     if (mounted) {
-      final authState = Provider.of<AuthState>(context, listen: false);
-      
-      // If the user is already authenticated, go to home, otherwise go to login
       if (authState.isAuthenticated) {
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       } else {

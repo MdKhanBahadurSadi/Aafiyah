@@ -12,6 +12,8 @@ import 'features/pill_identification/pill_state.dart';
 import 'features/lab_report/lab_report_state.dart';
 import 'features/telemedicine/telemedicine_state.dart';
 import 'features/gamification/gamification_state.dart';
+import 'features/medication_reminder/presentation/state/medication_state.dart';
+import 'features/medication_reminder/data/repositories/medication_database.dart';
 import 'core/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -23,8 +25,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   
-  // Initialize Notification Service
-  await NotificationService().init();
+  // Initialize Services
+  final notificationService = NotificationService();
+  await notificationService.init();
+  await notificationService.requestPermissions();
+  await MedicationDatabase.init();
   
   runApp(
     MultiProvider(
@@ -41,6 +46,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LabReportState()),
         ChangeNotifierProvider(create: (_) => TelemedicineState()),
         ChangeNotifierProvider(create: (_) => GamificationState()),
+        ChangeNotifierProvider(create: (_) => MedicationState()),
       ],
       child: const AafiyahApp(),
     ),

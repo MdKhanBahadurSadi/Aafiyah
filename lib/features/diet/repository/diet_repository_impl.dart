@@ -16,31 +16,31 @@ class DietRepositoryImpl implements DietRepository {
     required List<String> restrictions,
   }) async {
     final prompt = '''
-    Generate a daily diet and nutrition plan for a person with the following profile:
-    Age: $age
-    Gender: $gender
-    Symptoms: $symptoms
-    Current Health Status: $healthStatus
-    Dietary Preferences: ${preferences.join(", ")}
-    Dietary Restrictions: ${restrictions.join(", ")}
+    নিচের রোগীর তথ্যের ওপর ভিত্তি করে একটি দৈনিক খাদ্য ও পুষ্টি পরিকল্পনা (Diet Plan) তৈরি করুন:
+    বয়স: $age
+    লিঙ্গ: $gender
+    উপসর্গ: $symptoms
+    বর্তমান স্বাস্থ্য অবস্থা: $healthStatus
+    খাদ্য পছন্দ: ${preferences.join(", ")}
+    খাদ্য বিধিনিষেধ: ${restrictions.join(", ")}
     
-    The plan should be healthy, balanced, and consider Islamic dietary principles (Halal).
-    The description and advice should be in Bengali (বাংলা) to make it easy to understand for the user.
+    পরিকল্পনাটি স্বাস্থ্যকর, ভারসাম্যপূর্ণ এবং ইসলামি খাদ্য নীতি (হালাল) অনুসরণকারী হতে হবে।
+    শিরোনাম, বিবরণ, প্রতিটি বেলার খাবার ও সমস্ত পরামর্শ বাধ্যতামূলকভাবে ১০০% সহজ বাংলা ভাষায় (বাংলা বর্ণমালায়) হতে হবে।
     
-    Respond ONLY with a valid JSON object in this exact format:
+    শুধুমাত্র একটি বৈধ JSON অবজেক্ট রিটার্ন করুন:
     {
-      "title": "Diet Plan Title",
-      "description": "Short overview in Bengali",
+      "title": "ডায়েট প্ল্যানের নাম (বাংলায়)",
+      "description": "সংক্ষিপ্ত বিবরণ (বাংলায়)",
       "meals": [
         {
-          "time": "Breakfast/Lunch/Dinner/Snack",
-          "suggestion": "Detailed meal suggestion in Bengali",
-          "recipeLink": "Optional recipe link or name",
-          "calories": "Approximate calories"
+          "time": "সকালের নাস্তা/দুপুরের খাবার/রাতের খাবার/হালকা নাস্তা",
+          "suggestion": "খাবারের প্রস্তাবনা (বাংলায়)",
+          "recipeLink": "",
+          "calories": "আনুপাতিক ক্যালোরি"
         }
       ],
-      "generalAdvice": ["Advice 1 in Bengali", "Advice 2 in Bengali"],
-      "restrictions": ["Restriction 1 in Bengali", "Restriction 2 in Bengali"]
+      "generalAdvice": ["পরামর্শ ১ (বাংলায়)", "পরামর্শ ২ (বাংলায়)"],
+      "restrictions": ["নিষেধাজ্ঞা ১ (বাংলায়)", "নিষেধাজ্ঞা ২ (বাংলায়)"]
     }
     ''';
 

@@ -7,7 +7,11 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   firebase_auth
   firebase_core
+  firebase_storage
+  flutter_timezone
   geolocator_windows
+  isar_flutter_libs
+  pdfx
   permission_handler_windows
   url_launcher_windows
 )

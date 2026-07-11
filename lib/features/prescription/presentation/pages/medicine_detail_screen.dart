@@ -13,7 +13,7 @@ class MedicineDetailScreen extends StatelessWidget {
     final medicine = ModalRoute.of(context)!.settings.arguments as MedicineModel;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Medicine Details')),
+      appBar: AppBar(title: const Text('ওষুধের বিবরণ')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
         child: Column(
@@ -34,19 +34,19 @@ class MedicineDetailScreen extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                   Text(medicine.name, style: AppTextStyles.headlineLarge),
                   const SizedBox(height: 4),
-                  const Text('AI Verified Prescription Item', style: AppTextStyles.bodyMedium),
+                  const Text('এআই দ্বারা বিশ্লেষিত ওষুধের বিবরণ', style: AppTextStyles.bodyMedium),
                 ],
               ),
             ),
             const SizedBox(height: AppSpacing.xxl),
             
-            _buildGlassSection('Usage Instructions', medicine.usage, Icons.info_outline, AppColors.primary),
+            _buildGlassSection('ব্যবহারবিধি ও কার্যকারিতা', medicine.usage, Icons.info_outline, AppColors.primary),
             const SizedBox(height: AppSpacing.lg),
             
-            _buildGlassSection('Possible Side Effects', medicine.sideEffects, Icons.warning_amber_rounded, AppColors.secondary),
+            _buildGlassSection('সম্ভাব্য পার্শ্বপ্রতিক্রিয়া', medicine.sideEffects, Icons.warning_amber_rounded, AppColors.secondary),
             const SizedBox(height: AppSpacing.lg),
             
-            _buildGlassSection('Critical Warning', medicine.warning, Icons.report_problem_outlined, AppColors.error),
+            _buildGlassSection('জরুরি সতর্কতা', medicine.warning, Icons.report_problem_outlined, AppColors.error),
             
             const SizedBox(height: AppSpacing.xxl),
             const GlassCard(
@@ -57,7 +57,7 @@ class MedicineDetailScreen extends StatelessWidget {
                   SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
-                      'AI analysis is for informational purposes. Always consult your doctor.',
+                      'এআই বিশ্লেষণ শুধুমাত্র তথ্যের জন্য। যেকোনো ওষুধ সেবনের আগে অভিজ্ঞ ডাক্তারের পরামর্শ নিন।',
                       style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
                     ),
                   ),

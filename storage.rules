@@ -1,0 +1,52 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() { return signedIn() && request.auth.token.admin == true; }
+    function verifiedPartner() {
+      return signedIn()
+        && firestore.exists(/databases/(default)/documents/pharmacyUsers/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/pharmacyUsers/$(request.auth.uid)).data.status == 'verified'
+        && firestore.get(/databases/(default)/documents/pharmacies/$(firestore.get(/databases/(default)/documents/pharmacyUsers/$(request.auth.uid)).data.pharmacyId)).data.verificationStatus == 'verified';
+    }
+    function hasActiveShare(patientUid, prescriptionId) {
+      let pharmacyId = firestore.get(/databases/(default)/documents/pharmacyUsers/$(request.auth.uid)).data.pharmacyId;
+      let shareId = patientUid + '_' + prescriptionId + '_' + pharmacyId;
+      let sharePath = /databases/(default)/documents/prescriptionShares/$(shareId);
+      return firestore.exists(sharePath)
+        && firestore.get(sharePath).data.allowed == true
+        && request.time < firestore.get(sharePath).data.accessUntil;
+    }
+
+    match /prescriptions/{patientUid}/{prescriptionId}/{fileName} {
+      allow read: if isOwner(patientUid) || (verifiedPartner() && hasActiveShare(patientUid, prescriptionId));
+      allow create: if isOwner(patientUid)
+        && request.resource.size > 0 && request.resource.size <= 10485760
+        && request.resource.contentType in ['image/jpeg', 'image/png', 'application/pdf'];
+      allow update, delete, list: if false;
+    }
+
+    match /pharmacy-verifications/{uid}/{pharmacyId}/{fileName} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+        && request.resource.size > 0 && request.resource.size <= 10485760
+        && request.resource.contentType in ['image/jpeg', 'image/png', 'application/pdf'];
+      allow update, delete, list: if false;
+    }
+
+    match /pharmacy-logos/{pharmacyId}/logo {
+      allow read: if firestore.exists(/databases/(default)/documents/pharmacies/$(pharmacyId))
+        && firestore.get(/databases/(default)/documents/pharmacies/$(pharmacyId)).data.verificationStatus == 'verified';
+      allow create, update: if verifiedPartner()
+        && firestore.get(/databases/(default)/documents/pharmacyUsers/$(request.auth.uid)).data.pharmacyId == pharmacyId
+        && request.resource.size > 0 && request.resource.size <= 5242880
+        && request.resource.contentType in ['image/jpeg', 'image/png'];
+      allow delete, list: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

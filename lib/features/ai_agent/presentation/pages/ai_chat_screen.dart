@@ -5,6 +5,9 @@ import 'package:aafiyah/core/theme/app_text_styles.dart';
 import 'package:aafiyah/core/widgets/glass_card.dart';
 import 'package:aafiyah/core/constants/app_spacing.dart';
 import 'package:aafiyah/core/services/ai_service.dart';
+import 'package:aafiyah/core/services/voice_service.dart';
+import 'package:aafiyah/core/utils/crisis_keywords.dart';
+import 'package:aafiyah/core/widgets/crisis_support_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AIChatScreen extends StatefulWidget {
@@ -16,11 +19,12 @@ class AIChatScreen extends StatefulWidget {
 
 class _AIChatScreenState extends State<AIChatScreen> {
   final AIService _aiService = AIService();
+  final VoiceService _voiceService = VoiceService();
   final ImagePicker _picker = ImagePicker();
   final List<Map<String, dynamic>> _messages = [
     {
       'isAi': true,
-      'text': 'Assalamu Alaikum! I am Aafi, your health companion. How can I help you today?',
+      'text': 'আসসালামু আলাইকুম! আমি আফি, আপনার স্বাস্থ্য সহকারী। আজ আপনাকে কীভাবে সাহায্য করতে পারি?',
       'reasoning': null,
       'imagePath': null,
     }
@@ -76,6 +80,16 @@ class _AIChatScreenState extends State<AIChatScreen> {
     if (_controller.text.trim().isEmpty) return;
 
     final userText = _controller.text;
+
+    if (detectCrisis(userText)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (context) => const CrisisSupportDialog(),
+        );
+      });
+    }
+
     setState(() {
       _messages.add({'isAi': false, 'text': userText, 'reasoning': null, 'imagePath': null});
       _isTyping = true;
@@ -306,6 +320,22 @@ class _AIChatScreenState extends State<AIChatScreen> {
           IconButton(
             icon: const Icon(Icons.add_a_photo_outlined, color: AppColors.primary),
             onPressed: _showImageSourceActionSheet,
+          ),
+          ListenableBuilder(
+            listenable: _voiceService,
+            builder: (context, _) {
+              return IconButton(
+                icon: Icon(
+                  _voiceService.isListening ? Icons.mic : Icons.mic_none,
+                  color: _voiceService.isListening ? Colors.red : AppColors.primary,
+                ),
+                onPressed: () {
+                  _voiceService.startListening((spokenText) {
+                    _controller.text = spokenText;
+                  });
+                },
+              );
+            },
           ),
           Expanded(
             child: TextField(

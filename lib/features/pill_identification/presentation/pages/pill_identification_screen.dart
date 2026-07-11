@@ -46,7 +46,7 @@ class PillIdentificationScreen extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Gallery'),
+              title: const Text('গ্যালারি (Gallery)'),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(context, ImageSource.gallery);
@@ -54,7 +54,7 @@ class PillIdentificationScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.photo_camera),
-              title: const Text('Camera'),
+              title: const Text('ক্যামেরা (Camera)'),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(context, ImageSource.camera);
@@ -75,7 +75,7 @@ class PillIdentificationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pill Identifier'),
+        title: const Text('ওষুধ শনাক্তকারী (Pill Identifier)'),
         actions: [
           if (pillImage != null)
             IconButton(
@@ -90,10 +90,10 @@ class PillIdentificationScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: AppSpacing.lg),
-            const Text('Identify Your Medicine', style: AppTextStyles.headlineMedium),
+            const Text('আপনার ওষুধ শনাক্ত করুন', style: AppTextStyles.headlineMedium),
             const SizedBox(height: 8),
             const Text(
-              'Upload a clear photo of the pill or medicine packaging to get detailed information.',
+              'ওষুধের বা প্যাকেটের একটি স্পষ্ট ছবি তুলে বিস্তারিত তথ্য জেনে নিন।',
               style: AppTextStyles.bodyMedium,
             ),
             const SizedBox(height: AppSpacing.xl),
@@ -106,7 +106,7 @@ class PillIdentificationScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
             
             AppButton(
-              text: appState.isLoading ? 'Identifying...' : 'Identify Medicine',
+              text: appState.isLoading ? 'শনাক্ত করা হচ্ছে...' : 'ওষুধ শনাক্ত করুন',
               isLoading: appState.isLoading,
               onPressed: pillImage == null || appState.isLoading
                   ? null
@@ -128,7 +128,7 @@ class PillIdentificationScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
             
             if (identifiedPill != null) ...[
-              const Text('Identification Result', style: AppTextStyles.labelLarge),
+              const Text('শনাক্তকরণের ফলাফল', style: AppTextStyles.labelLarge),
               const SizedBox(height: AppSpacing.md),
               InkWell(
                 onTap: () => Navigator.pushNamed(
@@ -158,7 +158,7 @@ class PillIdentificationScreen extends StatelessWidget {
                               children: [
                                 Text(identifiedPill.name, style: AppTextStyles.headlineMedium.copyWith(fontSize: 20)),
                                 const SizedBox(height: 4),
-                                const Text('Verified by Aafiyah AI', style: AppTextStyles.bodyMedium),
+                                const Text('আফি এআই দ্বারা সত্যায়িত', style: AppTextStyles.bodyMedium),
                               ],
                             ),
                           ),
@@ -166,9 +166,9 @@ class PillIdentificationScreen extends StatelessWidget {
                         ],
                       ),
                       Divider(height: 32, color: AppColors.glassBorder),
-                      _buildInfoRow(Icons.help_outline_rounded, 'Common Usage', identifiedPill.usage),
+                      _buildInfoRow(Icons.help_outline_rounded, 'সাধারণ ব্যবহার', identifiedPill.usage),
                       const SizedBox(height: AppSpacing.md),
-                      _buildInfoRow(Icons.warning_amber_rounded, 'Safety Warning', identifiedPill.warning),
+                      _buildInfoRow(Icons.warning_amber_rounded, 'জরুরি সতর্কতা', identifiedPill.warning),
                     ],
                   ),
                 ),
@@ -230,7 +230,7 @@ class PillIdentificationScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.add_a_photo_outlined, size: 48, color: Colors.teal.withOpacity(0.5)),
                     const SizedBox(height: 12),
-                    const Text('Tap to capture pill photo', style: AppTextStyles.bodyMedium),
+                    const Text('ওষুধের ছবি তুলতে স্পর্শ করুন', style: AppTextStyles.bodyMedium),
                   ],
                 ),
               if (pillImage != null && !isIdentifying)
@@ -240,7 +240,7 @@ class PillIdentificationScreen extends StatelessWidget {
                     color: Colors.black45,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text('Change Photo', style: TextStyle(color: Colors.white, fontSize: 12)),
+                  child: const Text('ছবি পরিবর্তন করুন', style: TextStyle(color: Colors.white, fontSize: 12)),
                 ),
               if (isIdentifying) ...[
                 const Icon(Icons.biotech_rounded, size: 64, color: AppColors.textSecondary),

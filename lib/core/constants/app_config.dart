@@ -1,7 +1,10 @@
-import '../../firebase_options.dart';
-
 class AppConfig {
-  /// Gemini API Key obtained from DefaultFirebaseOptions
-  /// This file is ignored by git, so your key remains safe.
-  static const String geminiApiKey = DefaultFirebaseOptions.geminiApiKey;
+  /// Gemini API Key obtained from dart-define or direct fallback configuration
+  static const String _envApiKey = String.fromEnvironment('GEMINI_API_KEY');
+
+  /// Fallback API key for local development (if not using --dart-define)
+  static const String _fallbackApiKey = 'YOUR_API_KEY_HERE';
+
+  static String get geminiApiKey =>
+      _envApiKey.isNotEmpty ? _envApiKey : _fallbackApiKey;
 }

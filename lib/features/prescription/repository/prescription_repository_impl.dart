@@ -10,34 +10,36 @@ class PrescriptionRepositoryImpl implements PrescriptionRepository {
   @override
   Future<List<MedicineModel>> analyzePrescription(String imagePath) async {
     const prompt = '''
-    Analyze this prescription image and extract all medicines. 
-    Focus on finding:
-    1. Medicine Name
-    2. General usage/purpose
-    3. Potential side effects
-    4. Critical warnings
-    5. Dosage (e.g., "1 tablet", "5ml")
-    6. Schedule (e.g., ["Morning", "Night"], ["Every 8 hours"])
-    7. Relation to food (e.g., "Before Meal", "After Meal", "With Meal")
-    8. Duration in days (e.g., 7)
-    9. Initial stock quantity if mentioned, otherwise estimate based on duration and schedule.
+    এই প্রেসক্রিপশনের ছবিটি পরীক্ষা করুন এবং সমস্ত ওষুধের বিস্তারিত তথ্য বের করুন:
+    ১. ওষুধের নাম (Medicine Name)
+    ২. সাধারণ ব্যবহার ও উদ্দেশ্য (usage)
+    ৩. সম্ভাব্য পার্শ্বপ্রতিক্রিয়া (sideEffects)
+    ৪. জরুরি সতর্কতা (warning)
+    ৫. সেবনের মাত্রা (dosage, যেমন: "১টি ট্যাবলেট", "৫ মি.লি.")
+    ৬. খাওয়ার সময়সূচী (schedule, যেমন: ["সকাল", "রাত"], ["৮ ঘণ্টা পর পর"])
+    ৭. খাবারের সাথে সম্পর্ক (relationToFood, যেমন: "খাওয়ার আগে", "খাওয়ার পরে", "খাবারের সাথে")
+    ৮. মেয়াদকাল বা দিন সংখ্যা (durationDays, যেমন: 7)
+    ৯. প্রাথমিক মজুত পরিমাণ (stockQuantity)
     
-    Respond ONLY with a valid JSON array of objects in this exact format:
+    বাধ্যতামূলক নিয়ম (STRICT REQUIREMENT):
+    "usage", "sideEffects", "warning", "dosage", "schedule", "relationToFood" - এই সমস্ত ফিল্ডের ভ্যালু ১০০% অবশ্যই স্পষ্ট, সহজ এবং শুদ্ধ বাংলা ভাষায় (বাংলা বর্ণমালায়) হতে হবে। কোনো ইংরেজি বাক্য থাকবে না।
+    
+    শুধুমাত্র নিচের ফরম্যাটে একটি বৈধ JSON অ্যারে রিটার্ন করুন:
     [
       {
         "name": "Medicine Name",
-        "usage": "Usage instructions",
-        "sideEffects": "Side effects",
-        "warning": "Warnings",
-        "dosage": "1 tablet",
-        "schedule": ["Morning", "Night"],
-        "relationToFood": "After Meal",
+        "usage": "ওষুধের ব্যবহার (বাংলায়)",
+        "sideEffects": "পার্শ্বপ্রতিক্রিয়া (বাংলায়)",
+        "warning": "সতর্কতা (বাংলায়)",
+        "dosage": "১টি ট্যাবলেট",
+        "schedule": ["সকাল", "রাত"],
+        "relationToFood": "খাওয়ার পরে",
         "durationDays": 7,
         "stockQuantity": 14
       }
     ]
     
-    If no medicines are found, return an empty array [].
+    কোনো ওষুধ পাওয়া না গেলে খালি অ্যারে [] রিটার্ন করুন।
     ''';
 
     try {

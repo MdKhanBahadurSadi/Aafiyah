@@ -1,0 +1,932 @@
+% ==============================================================================
+% National Science Fair & Engineering Research Project Report (English Edition)
+% Event: "In Search of Future Scientists 2026" ("ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬")
+% Project Name: Aafiyah (Personal Health Ecosystem & Multimodal AI Agent)
+% Author: Md Khan Bahadur Sadi
+% ==============================================================================
+% Compatible with: pdfLaTeX, XeLaTeX, and LuaLaTeX (Overleaf / TeX Live / MiKTeX)
+% ==============================================================================
+
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ------------------------------------------------------------------------------
+% 1. Page Geometry & Layout
+% ------------------------------------------------------------------------------
+\usepackage[top=25mm, bottom=25mm, left=28mm, right=25mm, headheight=16pt]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ------------------------------------------------------------------------------
+% 2. Character Encoding, Typography & Fonts (Cross-Engine Compatibility)
+% ------------------------------------------------------------------------------
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+  \usepackage{textcomp}
+\else
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+  \IfFontExistsTF{Times New Roman}{
+      \setmainfont{Times New Roman}
+  }{
+      \IfFontExistsTF{DejaVu Serif}{
+          \setmainfont{DejaVu Serif}
+      }{
+          \setmainfont{FreeSerif}
+      }
+  }
+\fi
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+
+% ------------------------------------------------------------------------------
+% 3. Color Palette & Graphical Enhancements
+% ------------------------------------------------------------------------------
+\usepackage[table,xcdraw]{xcolor}
+\definecolor{primaryTeal}{HTML}{00897B}
+\definecolor{deepEmerald}{HTML}{004D40}
+\definecolor{accentCoral}{HTML}{E53935}
+\definecolor{darkSlate}{HTML}{263238}
+\definecolor{softGray}{HTML}{F8F9FA}
+\definecolor{borderGray}{HTML}{CFD8DC}
+\definecolor{codeBackground}{HTML}{ECEFF1}
+
+\usepackage{graphicx}
+\graphicspath{{../Screenshot/}{Screenshot/}{../}{./}}
+
+% ------------------------------------------------------------------------------
+% 4. Callout Boxes & Framed Environments (tcolorbox)
+% ------------------------------------------------------------------------------
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{highlightbox}[1][]{
+    enhanced,
+    colback=softGray,
+    colframe=primaryTeal,
+    arc=3mm,
+    boxrule=1.2pt,
+    left=15pt,
+    right=15pt,
+    top=12pt,
+    bottom=12pt,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=primaryTeal,
+    attach boxed title to top left={yshift=-2mm, xshift=5mm},
+    boxed title style={sharp corners=downhill, arc=2mm},
+    #1
+}
+
+\newtcolorbox{alertbox}[1][]{
+    enhanced,
+    colback=white,
+    colframe=accentCoral,
+    arc=3mm,
+    boxrule=1.4pt,
+    left=15pt,
+    right=15pt,
+    top=10pt,
+    bottom=10pt,
+    #1
+}
+
+% ------------------------------------------------------------------------------
+% 5. High-Quality Professional Tables
+% ------------------------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.35}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% ------------------------------------------------------------------------------
+% 6. Running Headers, Footers & Titlesec
+% ------------------------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{darkSlate}{\small\slshape Aafiyah: Multimodal AI-Agent Health Ecosystem}}
+\fancyhead[R]{\textcolor{primaryTeal}{\small\bfseries Future Scientists 2026}}
+\fancyfoot[C]{\textcolor{darkSlate}{\thepage}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{deepEmerald}}{\chaptertitlename\ \thechapter}{12pt}{\Huge\color{deepEmerald}}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{deepEmerald}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{primaryTeal}}{\thesubsection}{1em}{}
+
+% ------------------------------------------------------------------------------
+% 7. TikZ Vector Flowchart & Diagrams
+% ------------------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, shadows, fit}
+
+\tikzset{
+    startstop/.style={rectangle, rounded corners, minimum width=2.6cm, minimum height=1cm, text centered, draw=deepEmerald, fill=softGray, drop shadow, font=\small\bfseries},
+    io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2.2cm, minimum height=1cm, text centered, draw=primaryTeal, fill=white, drop shadow, font=\small},
+    process/.style={rectangle, minimum width=2.8cm, minimum height=1.1cm, text centered, text width=2.6cm, draw=primaryTeal, fill=softGray, drop shadow, font=\small},
+    decision/.style={diamond, aspect=2, minimum width=2.4cm, minimum height=1cm, text centered, text width=2cm, draw=accentCoral, fill=white, drop shadow, font=\small\bfseries},
+    arrow/.style={thick, ->, >=Stealth, color=darkSlate}
+}
+
+% ------------------------------------------------------------------------------
+% 8. Hyperlinks & Cross-Referencing
+% ------------------------------------------------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=deepEmerald,
+    citecolor=primaryTeal,
+    filecolor=accentCoral,
+    urlcolor=primaryTeal,
+    pdftitle={Aafiyah: Science Fair Project Report 2026},
+    pdfauthor={Md Khan Bahadur Sadi},
+    pdfsubject={National Science Fair - In Search of Future Scientists 2026},
+    pdfkeywords={AI Agent, Multimodal Vision, Health Informatics, Mobile Health, Triage, Telemedicine}
+}
+
+% ==============================================================================
+% DOCUMENT BEGINS
+% ==============================================================================
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% COVER PAGE
+% ------------------------------------------------------------------------------
+\begin{titlepage}
+    \begin{tcolorbox}[
+        enhanced,
+        colback=white,
+        colframe=deepEmerald,
+        arc=0mm,
+        boxrule=2.2pt,
+        height=\textheight,
+        left=20pt,
+        right=20pt,
+        top=25pt,
+        bottom=25pt
+    ]
+    \centering
+    
+    \vspace*{0.2cm}
+    {\scshape\Large Government of the People's Republic of Bangladesh \par}
+    \vspace{0.1cm}
+    {\large National Science Fair \& Innovation Competition \par}
+    \vspace{0.4cm}
+    {\Huge\bfseries\textcolor{accentCoral}{"In Search of Future Scientists 2026"}\par}
+    \vspace{0.1cm}
+    {\large ("ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬") \par}
+    
+    \vspace{1.0cm}
+    \rule{\linewidth}{1.6pt}\\[0.4cm]
+    {\Huge\bfseries\textcolor{deepEmerald}{Aafiyah}\par}
+    \vspace{0.3cm}
+    {\Large\bfseries A Multimodal AI-Agent Driven Personal Health Ecosystem and Intelligent Triage Platform\par}
+    \vspace{0.2cm}
+    {\normalsize\textit{An Autonomous, Context-Aware Mobile Health System for Medication Adherence, Diagnostic Document Ingestion, and Emergency Response}\par}
+    \rule{\linewidth}{1.6pt}
+    
+    \vspace{1.2cm}
+    \begin{minipage}[t]{0.48\textwidth}
+        \flushleft
+        \textbf{\large Lead Investigator \& Developer:}\\[0.2cm]
+        \textbf{\Large Md Khan Bahadur Sadi}\\[0.1cm]
+        \textbf{Role:} Solo Researcher \& Software Engineer\\[0.1cm]
+        \textbf{Email:} \href{mailto:khanbahadursadi@gmail.com}{khanbahadursadi@gmail.com}\\[0.1cm]
+        \textbf{Institution:} [Participant Institution Name / Affiliation]
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \flushright
+        \textbf{\large Scientific Discipline:}\\[0.2cm]
+        Artificial Intelligence \& Software Systems\\
+        Health Informatics \& Biomedical Engineering\\[0.5cm]
+        \textbf{Submission Year:}\\
+        2026 CE
+    \end{minipage}
+
+    \vfill
+    {\large\textbf{Submission Category: Senior / National Science Fair Competition}\par}
+    \vspace{0.3cm}
+    \textcolor{deepEmerald}{\rule{8cm}{0.8pt}}\\[0.2cm]
+    {\small\textbf{Project Repository \& Open Showcase:} GitHub --- MdKhanBahadurSadi/Aafiyah}
+    \end{tcolorbox}
+\end{titlepage}
+
+% ------------------------------------------------------------------------------
+% PRELIMINARY MATTERS: TOC, Figures, Tables
+% ------------------------------------------------------------------------------
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ==============================================================================
+% CHAPTER 1: ABSTRACT
+% ==============================================================================
+\chapter{Abstract}
+
+\begin{highlightbox}[title=Scientific Abstract]
+Healthcare delivery in developing countries faces acute systemic bottlenecks, characterized by disproportionate physician-to-patient ratios, widespread low health literacy, pervasive medication non-adherence, and fatal delays during acute medical emergencies. To address these interconnected challenges, this research engineering project introduces \textbf{Aafiyah}, a comprehensive, multimodal Artificial Intelligence (AI) Agent health management platform engineered with Flutter, the Google Gemini Multimodal Vision API, Firebase, device-level background scheduler subsystems, and embedded biometric sensor APIs (Google Fit, Apple HealthKit, and GPS).
+
+Unlike conventional passive conversational chatbots that merely generate unstructured text replies, Aafiyah operates as an \textit{autonomous agentic system}. It parses complex unstructured prescription imagery to extract discrete medication entities, dosages, and dosing intervals, directly programming local notification alarms and maintaining active inventory counters that predict medication exhaustion and alert users three days prior. The platform further integrates automated laboratory diagnostic report simplification, blister-pack tablet identification, evidence-based symptom severity triage, proactive psychological well-being interventions triggered by longitudinal mood analysis, continuous biometric monitoring (blood pressure, hydration, BMI, heart rate, and sleep duration), and one-touch GPS-embedded SOS telecommunication dispatch. 
+
+Functional validation demonstrated 100\% test-case execution across automated alarm scheduling, low-stock threshold alerting, critical clinical triage routing, and geolocation dispatch. This project demonstrates that combining multimodal foundational vision models with localized edge hardware execution creates a reliable, scalable, and cost-effective digital health companion capable of bridging the health literacy divide and optimizing patient outcomes in resource-constrained environments.
+\end{highlightbox}
+
+% ==============================================================================
+% CHAPTER 2: INTRODUCTION
+% ==============================================================================
+\chapter{Introduction}
+
+\section{Background and Context}
+Access to timely, accurate, and comprehensible healthcare information remains one of the defining socioeconomic challenges of the modern era. While diagnostic medicine and pharmacotherapy have advanced significantly, the transmission of medical guidance from clinicians to patients remains highly inefficient. In developing nations such as Bangladesh, clinicians often attend to dozens of patients in congested outpatient departments, leaving minimal time to explain prescription schedules, drug-food interactions, potential adverse effects, or diagnostic test implications.
+
+\section{The Medication Adherence Crisis}
+The World Health Organization (WHO) reports that approximately 50\% of patients suffering from chronic illnesses fail to take their medications as prescribed. In developing economies, this figure is compounded by illegible hand-written prescriptions, complex multi-drug regimens, cognitive forgetfulness among elderly patients, and economic disruptions leading to unmonitored stock-outs. The consequences of non-adherence are catastrophic: avoidable disease progression, elevated hospitalization rates, preventable mortality, and the rapid emergence of antimicrobial resistance due to prematurely terminated antibiotic cycles.
+
+\section{The Role of Agentic Artificial Intelligence}
+Recent breakthroughs in Large Language Models (LLMs) and Multimodal Foundation Models (such as Google Gemini) present an unprecedented opportunity to democratize health intelligence. However, typical chatbot applications present severe limitations: they are passive, prone to hallucination, isolated from device hardware, and incapable of executing tangible real-world workflows. 
+
+\textbf{Aafiyah} is formulated as an \textit{agentic mobile ecosystem}. An AI Agent perceives its environment through multimodal sensory inputs (camera images of prescriptions, pills, lab documents, and sensor readings), reasons over constraints using clinical safety guardrails, makes state-driven decisions, and acts autonomously upon the host operating system (programming background alarms, decrementing inventory, tracking vital statistics, and dispatching emergency communications).
+
+% ==============================================================================
+% CHAPTER 3: PROBLEM STATEMENT
+% ==============================================================================
+\chapter{Problem Statement}
+
+The project directly targets five pervasive clinical and technical challenges:
+
+\begin{enumerate}
+    \item \textbf{Medication Mismanagement and Non-Adherence:} Patients frequently miss doses, confuse similar-looking blister packs, or ignore critical timing instructions (e.g., before or after meals) due to confusing prescription layouts.
+    \item \textbf{Diagnostic Incomprehensibility:} Clinical pathology reports contain dense biochemical terminology and reference ranges that laypersons cannot interpret, inducing acute anxiety or unwarranted complacency.
+    \item \textbf{Absence of Timely Clinical Triage:} Patients experiencing emergent symptoms (e.g., radiating chest pain, acute dyspnea) lack an objective triage guide to differentiate self-limiting conditions from life-threatening emergencies requiring immediate hospital admission.
+    \item \textbf{Fragmented Health Records and Vitals Tracking:} Everyday indicators of health—such as blood pressure, hydration, physical activity, and emotional states—are rarely recorded systematically, depriving clinicians of longitudinal clinical trends.
+    \item \textbf{Geographical and Logistical Delays in Emergencies:} During medical crises, victims or panicked family members face crippling delays in identifying appropriate nearby specialists and broadcasting their real-time coordinates to designated emergency contacts.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 4: MOTIVATION
+% ==============================================================================
+\chapter{Motivation}
+
+The genesis of Aafiyah is rooted in tangible humanitarian, scientific, and technological motivations:
+
+\begin{itemize}
+    \item \textbf{Socio-Demographic Reality:} In Bangladesh, joint family structures frequently rely on working-age youths to manage the healthcare routines of aging parents suffering from hypertension and diabetes. An automated assistant relieves cognitive burdens on caregivers while safeguarding elderly family members.
+    \item \textbf{Technological Convergence:} The ubiquitous penetration of modern smartphones equipped with high-resolution cameras, GPS sensors, and operating-system-level health subsystems (Google Fit and Apple Health) creates a ready-to-deploy hardware infrastructure for distributed health informatics.
+    \item \textbf{Culturally-Harmonious and Empathetic Design:} Medical healing is inherently psychosocial. Incorporating an empathetic, respectful, and culturally familiar persona (\textit{"Aafi"}, promoting holistic well-being or \textit{Aafiyah}) fosters trust, reduces clinical anxiety, and encourages long-term patient engagement.
+\end{itemize}
+
+% ==============================================================================
+% CHAPTER 5: OBJECTIVES
+% ==============================================================================
+\chapter{Objectives}
+
+The explicit scientific and engineering objectives of this project are:
+
+\begin{enumerate}
+    \item \textbf{Implement Multimodal Computer Vision Ingestion:} Construct a vision pipeline capable of ingesting raw camera images of physical prescriptions, pill packaging, and printed laboratory reports.
+    \item \textbf{Engineer an Autonomous Medication Scheduling \& Inventory Engine:} Develop an algorithmic pipeline that extracts dosage schedules, programs offline background alarms, decrements active inventory upon confirmed ingestion, and triggers low-stock alerts three days before depletion.
+    \item \textbf{Deploy a Risk-Stratified Clinical Triage System:} Formalize a reasoning pipeline that evaluates symptom severity, duration, and patient demographics to route life-threatening cases to an immediate high-urgency emergency interface.
+    \item \textbf{Integrate Biometric Wearable Subsystems:} Synchronize real-time steps, heart rate, and sleep duration from OS-level health daemons into an actionable central analytical dashboard.
+    \item \textbf{Establish Localized Bengali NLP Delivery:} Ensure all diagnostic simplifications, medical summaries, and wellness recommendations are rendered in accessible, standard Bengali for non-specialist users.
+    \item \textbf{Build Geospatial Specialist Matching \& Emergency SOS:} Formulate a spatial filtering algorithm matching patient symptoms and GPS coordinates with nearby physicians, alongside a one-tap SMS SOS broadcast mechanism.
+    \item \textbf{Incorporate Habit Gamification \& Proactive Mental Health Surveillance:} Deploy longitudinal mood tracking that proactively delivers therapeutic interventions upon detecting three consecutive days of depressive affect, reinforced by health streak incentives.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 6: PROPOSED SOLUTION
+% ==============================================================================
+\chapter{Proposed Solution}
+
+Aafiyah resolves the identified problems through a unified, three-tiered architectural model:
+
+\begin{enumerate}
+    \item \textbf{Perception \& Ingestion Layer:} Captures unstructured multimodal inputs directly from the user's physical environment (camera images of documents/pills, manual numerical inputs, and OS sensor data).
+    \item \textbf{Reasoning, Triage \& Decision Layer:} Executes structured prompt pipelines against the Google Gemini multimodal model under strict JSON schema enforcement. The agent interprets the clinical semantics of the input, stratifies risk levels, and dispatches instructions to relevant software subsystems.
+    \item \textbf{Autonomous Action \& Storage Layer:} Converts model outputs into tangible system actions, including scheduling local OS background alarms, persisting medication state in offline storage, updating cloud databases, rendering interactive charts, and triggering telecommunication gateways.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 7: SCIENTIFIC AND TECHNICAL PRINCIPLES
+% ==============================================================================
+\chapter{Scientific and Technical Principles}
+
+The architecture of Aafiyah is governed by rigorous computational and software engineering principles:
+
+\begin{itemize}
+    \item \textbf{Multimodal Foundational Vision Processing:} Unlike standard Optical Character Recognition (OCR), which only maps pixel clusters to ASCII characters without semantic awareness, Multimodal Large Language Models contextualize handwritten medical nomenclature, decipher abbreviated Latin dosing conventions (e.g., \textit{1-0-1}, \textit{p.c.}, \textit{b.i.d.}), and correlate test results against standard biochemical biological reference intervals.
+    \item \textbf{Contract-First Structured Schema Enforcement:} To eliminate stochastic hallucination, the reasoning engine enforces strict JSON grammar constraints on model responses. Every output is parsed into strongly typed Dart data models (\texttt{MedicineModel}, \texttt{SymptomResponse}, \texttt{DietPlan}) before passing into application state machines.
+    \item \textbf{Autonomous Agentic State Management:} A true agent must possess agency—the capacity to execute actions on behalf of a user. In Aafiyah, the agent acts upon the operating system's \texttt{flutter\_local\_notifications} daemon, creating and canceling hardware alarms without requiring manual user programming.
+    \item \textbf{Geospatial Spherical Distance Filtering:} Distance calculations match patient coordinates ($\text{Lat}_u, \text{Lon}_u$) with doctor registry locations ($\text{Lat}_d, \text{Lon}_d$), utilizing spatial proximity and clinical specialty categorization to optimize medical routing.
+    \item \textbf{Sensor Data Synchronization Protocols:} Leverages privileged OS-level biometric buses to pull aggregated daily telemetry (step counts, resting heart rate, sleep duration) asynchronously.
+\end{itemize}
+
+% ==============================================================================
+% CHAPTER 8: SYSTEM ARCHITECTURE
+% ==============================================================================
+\chapter{System Architecture}
+
+The system architecture decouples user interaction, core background services, foundational AI reasoning, and hardware persistence, as illustrated in Figure \ref{fig:sys_arch_en}.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.4cm and 1.2cm, auto]
+    % Nodes
+    \node (user) [startstop] {End User};
+    \node (ui) [process, below=of user] {Flutter UI (Glassmorphic)};
+    \node (state) [process, below=of ui] {State Layer (Provider)};
+    \node (ai) [process, right=2.4cm of state, fill=primaryTeal!15] {Gemini Agentic Core};
+    \node (vision) [io, above=of ai] {Vision Ingestion (Camera)};
+    \node (scheduler) [process, below left=1.8cm of state] {Alarm Scheduler};
+    \node (storage) [startstop, below=of state] {Local Cache \& Firestore};
+    \node (emergency) [alertbox, below right=1.8cm of state, text width=2.8cm, text centered] {\textbf{Emergency SOS \& GPS Dispatch}};
+
+    % Connectors
+    \draw [arrow] (user) -- node[left] {Image / Query} (ui);
+    \draw [arrow] (ui) -- (state);
+    \draw [arrow] (state) -- (ai);
+    \draw [arrow] (vision) -- (ai);
+    \draw [arrow] (ui) -| (vision);
+    \draw [arrow] (ai) -- node[below, sloped] {Structured JSON} (state);
+    \draw [arrow] (state) -- (scheduler);
+    \draw [arrow] (state) -- (storage);
+    \draw [arrow] (state) -- (emergency);
+    \draw [arrow] (scheduler) |- (user);
+\end{tikzpicture}
+\caption{Aafiyah System Architecture and Modular Dataflow (Original Diagram Generated for this Report)}
+\label{fig:sys_arch_en}
+\end{figure}
+
+\section{Core Architectural Subsystems}
+\begin{enumerate}
+    \item \textbf{Presentation \& UI Layer:} Responsive cross-platform interface styled with modern dark-mode glassmorphic cards, designed for intuitive navigation by users of varying digital literacy.
+    \item \textbf{Reactive State Layer (\texttt{Provider}):} Coordinates unified state machines across authentication, medication inventories, symptom states, tracking logs, and gamification streaks.
+    \item \textbf{AI Service Bus (\texttt{AIService}):} Manages secure client authentication with the Gemini foundational model, maintains systemic prompt guidelines, and handles multipart network streams.
+    \item \textbf{Operating System Bridges:} Direct hardware bridges to notification channels, GPS location managers, camera hardware, and telephony SMS intent launchers.
+    \item \textbf{Persistence Layer:} Dual-tier storage utilizing device-local key-value serialization (\texttt{SharedPreferences}) for offline resilience and Cloud Firestore for multi-device profile persistence.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 9: WORKING PRINCIPLE AND WORKFLOW
+% ==============================================================================
+\chapter{Working Principle and Workflow}
+
+The operational dynamics of Aafiyah are organized into distinct algorithmic workflows:
+
+\section{Prescription Vision and Closed-Loop Medication Workflow}
+\begin{enumerate}
+    \item \textbf{Capture:} The user photographs a physical prescription using the camera module.
+    \item \textbf{Vision Ingestion:} The binary image stream is dispatched to \texttt{AIService.analyzeImage()} accompanied by a strict JSON schema prompt.
+    \item \textbf{Extraction:} The model identifies discrete medicine records:
+    \begin{equation}
+        M_i = \{\text{name}, \text{dosage}, \text{schedule}, \text{relationToFood}, \text{durationDays}, \text{stockQuantity}\}
+    \end{equation}
+    \item \textbf{Autonomous Scheduling:} \texttt{PrescriptionState} maps scheduling strings (\textit{"Morning"}, \textit{"Noon"}, \textit{"Night"}) to localized 24-hour timestamps (08:00, 14:00, 21:00) and schedules recurring offline alerts via \texttt{NotificationService}.
+    \item \textbf{Closed-Loop Inventory Consumption:} Each time the user confirms dose ingestion via the application UI:
+    \begin{equation}
+        S_{t+1} = S_t - 1
+    \end{equation}
+    When remaining stock $S_{t+1} \le 3 \times (\text{daily doses})$, an urgent re-stock notification is autonomously scheduled.
+\end{enumerate}
+
+\section{Clinical Triage and Red Alert Escalation Workflow}
+The user inputs presenting symptoms, duration, age, and biological sex into the Symptom Genius interface. The triage engine infers clinical severity:
+\begin{equation}
+    T(\text{Symptoms}) \rightarrow \{\text{Severity} \in [\text{Low}, \text{Medium}, \text{High}], \text{Emergency} \in [\text{True}, \text{False}]\}
+\end{equation}
+If $\text{Emergency} = \text{True}$, the application immediately breaks regular navigation and displays the full-screen \texttt{EmergencyAlertScreen}, providing direct telephony access to national emergency services (999) and pre-formatting an SMS containing the user's exact reverse-geocoded Google Maps coordinate link.
+
+\section{Proactive Mental Health Surveillance Workflow}
+The mental health module tracks daily affective inputs. The state manager analyzes the rolling window:
+\begin{equation}
+    W_3 = \{M_{t-2}, M_{t-1}, M_t\}
+\end{equation}
+If all three consecutive entries denote negative affect (\textit{Sad}, \textit{Anxious}, \textit{Depressed}), the agent autonomously executes an empathetic therapeutic prompt, presenting tailored relaxation exercises, culturally affirming mindfulness guidance, and professional psychological consultation disclaimers.
+
+% ==============================================================================
+% CHAPTER 10: METHODOLOGY
+% ==============================================================================
+\chapter{Methodology}
+
+The research engineering lifecycle adhered to a hybrid Agile-Spiral methodology:
+
+\begin{enumerate}
+    \item \textbf{Requirements Analysis:} Formulated user personas encompassing chronic disease sufferers, family caregivers, and rural patients with limited medical literacy.
+    \item \textbf{Schema Definition \& Prompt Engineering:} Engineered contract-first system instructions embedding disclaimers, Islamic ethical empathy (\textit{"Aafi"} persona), and rigid JSON schema extraction boundaries to prevent uncontrolled conversational drift.
+    \item \textbf{Edge Hardware Integration:} Configured native Android and iOS permission frameworks for background location harvesting, local notification channels, and activity recognition.
+    \item \textbf{Verification \& Validation:} Executed systematic functional test suites verifying schema adherence, alarm triggers, and sensor ingestion.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 11: TECHNOLOGY STACK
+% ==============================================================================
+\chapter{Technology Stack}
+
+Table \ref{tab:tech_stack_en} summarizes the technical stack employed in the development of Aafiyah:
+
+\begin{table}[htbp]
+\centering
+\caption{Aafiyah Technology Stack and Architecture Specifications}
+\label{tab:tech_stack_en}
+\begin{tabularx}{\textwidth}{L{4.2cm} L{3.5cm} X}
+\toprule
+\textbf{Technology / Library} & \textbf{Category} & \textbf{Specific Architectural Purpose} \\
+\midrule
+\textbf{Flutter (v3.x) \& Dart} & Client Framework & Cross-platform reactive compilation for Android and iOS devices \\
+\textbf{Google Generative AI} & Multimodal AI Core & Cloud-hosted Gemini multimodal vision, parsing, and reasoning \\
+\textbf{Provider (v6.1.2)} & State Architecture & Reactive separation of concerns, dependency injection, and data propagation \\
+\textbf{Local Notifications} & OS Daemon Wrapper & Offline hardware-level scheduled medicine reminders and inventory alerts \\
+\textbf{Health (v11.0.0)} & Biometric Sensor API & Aggregates time-series steps, heart rate, and sleep duration from Google Fit \\
+\textbf{Geolocator (v13.0.2)} & Geolocation Services & Hardware GPS coordinate harvesting for emergency dispatch and doctor matching \\
+\textbf{FL Chart (v0.70.2)} & Data Visualization & Renders interactive systolic/diastolic blood pressure curves and hydration bars \\
+\textbf{Cloud Firestore} & Cloud Backend & Synchronizes user accounts, appointments, and doctors' directories \\
+\textbf{Shared Preferences} & Local Storage & Offline-first key-value persistence for active medications and streak logs \\
+\textbf{URL Launcher} & OS Intent Dispatcher & Native telephony dialer and SMS gateway invocation \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==============================================================================
+% CHAPTER 12: IMPLEMENTATION
+% ==============================================================================
+\chapter{Implementation Details}
+
+Aafiyah is implemented across six core functional packages:
+\begin{enumerate}
+    \item \textbf{\texttt{features/auth}:} Provides secure email/password and Google OAuth onboarding, synchronizing user state with Firebase Authentication.
+    \item \textbf{\texttt{features/prescription} \& \texttt{pill\_identification}:} Implements camera controllers, multipart image encoding, and JSON schema extraction repositories.
+    \item \textbf{\texttt{features/symptom}:} Encapsulates triage intake forms, severity parsing, and conditional routing to the high-urgency \texttt{EmergencyAlertScreen}.
+    \item \textbf{\texttt{features/tracking}:} Houses the biometric telemetry suite, including systolic/diastolic blood pressure logging, hydration calculations, and BMI evaluation.
+    \item \textbf{\texttt{features/mental\_health} \& \texttt{diet}:} Houses proactive psychological state watchers, structured meal planning generators, and longitudinal mood journals.
+    \item \textbf{\texttt{features/gamification}:} Implements daily login streaks, medicine adherence rewards, step goal badges, and hydration milestones.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 13: SCREENSHOTS AND SYSTEM OUTPUT
+% ==============================================================================
+\chapter{Screenshots and System Output}
+
+All visual artifacts presented in this chapter are authentic project screenshots sourced directly from the project repository.
+
+\section{Core Onboarding and System Dashboard}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{"Screenshot/splash.png"}
+\caption{Aafiyah Splash Screen and Brand Identity (Source: Actual project screenshot)}
+\label{fig:splash_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/login.png"}
+    \caption*{(a) User Login}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/regester.png"}
+    \caption*{(b) Registration}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/reset.png"}
+    \caption*{(c) Password Recovery}
+\end{minipage}
+\caption{Authentication and Profile Security Interfaces (Source: Actual project screenshot)}
+\label{fig:auth_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/main1.png"}
+    \caption*{(a) Dashboard Top: AI Services}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/main2.png"}
+    \caption*{(b) Dashboard Bottom: Vitals \& Safety}
+\end{minipage}
+\caption{Aafiyah Main Central Control Dashboard (Source: Actual project screenshot)}
+\label{fig:dashboard_en}
+\end{figure}
+
+\section{AI Health Intelligence and Diagnostic Vision}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Aafi Ai.png"}
+\caption{"Aafi" AI Conversational Health Companion (Source: Actual project screenshot)}
+\label{fig:aafi_ai_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Prescriptrion Analysis.png"}
+\caption{Prescription Vision Automated Extraction Output (Source: Actual project screenshot)}
+\label{fig:prescription_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Pill identifier loader.jpg"}
+    \caption*{(a) Vision Processing Loader}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Pill Identifier.png"}
+    \caption*{(b) Pill Identification Result}
+\end{minipage}
+\caption{Pill Identifier Scanning and Verification Interface (Source: Actual project screenshot)}
+\label{fig:pill_id_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Lab Report Insight.png"}
+\caption{Lab Report Insight: Automated Pathology Document Simplification (Source: Actual project screenshot)}
+\label{fig:lab_report_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/symptoms.png"}
+    \caption*{(a) Symptom Intake Form}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/symptom output.png"}
+    \caption*{(b) AI Triage Result}
+\end{minipage}
+\caption{Symptom Evaluation and Clinical Triage Pipeline (Source: Actual project screenshot)}
+\label{fig:symptom_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Critical Alert.png"}
+\caption{Critical Emergency Red Alert Interface (Source: Actual project screenshot)}
+\label{fig:critical_alert_en}
+\end{figure}
+
+\section{Biometric Telemetry and Wearable Integration}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Wearable Integration.png"}
+\caption{Wearable Device Integration and Real-Time Vitals Tracking (Source: Actual project screenshot)}
+\label{fig:wearable_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Blood Pressure Record.png"}
+    \caption*{(a) Blood Pressure Analytics}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Hydration History.png"}
+    \caption*{(b) Hydration History Tracker}
+\end{minipage}
+\caption{Longitudinal Biometric Vitals and Daily Health Metrics (Source: Actual project screenshot)}
+\label{fig:tracking_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{"Screenshot/BMI result.png"}
+\caption{BMI Calculator Result and Body Mass Classification (Source: Actual project screenshot)}
+\label{fig:bmi_en}
+\end{figure}
+
+\section{Mental Health, Lifestyle and Telemedicine}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Mood Input.png"}
+    \caption*{(a) Mood Input Interface}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Mood Journal.png"}
+    \caption*{(b) Longitudinal Mood Timeline}
+\end{minipage}
+\caption{Mental Health Journal and Surveillance Pipeline (Source: Actual project screenshot)}
+\label{fig:mental_health_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/diet.png"}
+    \caption*{(a) AI Daily Diet Plan}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Health advice.png"}
+    \caption*{(b) Preventive Wellness Tips}
+\end{minipage}
+\caption{Nutritional Planning and Daily Health Guidance (Source: Actual project screenshot)}
+\label{fig:lifestyle_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Medicine Reminder.png"}
+    \caption*{(a) Medicine Reminder}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Telemedicine.png"}
+    \caption*{(b) Doctor Matching}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Telemedicine2.png"}
+    \caption*{(c) Appointment Booking}
+\end{minipage}
+\caption{Medication Adherence Schedules and Telemedicine Consultation Management}
+\label{fig:telemed_en}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Rewards and Streaks.png"}
+\caption{Gamification Engine: Streaks, Points, and Achievement Badges (Source: Actual project screenshot)}
+\label{fig:gamification_en}
+\end{figure}
+
+% ==============================================================================
+% CHAPTER 14: GENERATED SCIENTIFIC DIAGRAMS
+% ==============================================================================
+\chapter{Generated Scientific Diagrams}
+
+Figure \ref{fig:agent_workflow_en} illustrates the autonomous closed-loop agent workflow governing medication prescription parsing, local alarm scheduling, and inventory depletion monitoring.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.3cm and 1.5cm, auto]
+    \node (img) [io] {Prescription Image};
+    \node (gemini) [process, below=of img, fill=primaryTeal!15] {Gemini Multimodal Vision};
+    \node (parse) [process, below=of gemini] {JSON Entity Extraction};
+    \node (sched) [process, below left=1.5cm of parse] {Local Alarm Scheduler};
+    \node (inv) [process, below right=1.5cm of parse] {Active Inventory Store};
+    \node (alarm) [startstop, below=of sched] {Device Audio Alert};
+    \node (confirm) [io, below=of alarm] {User Confirms Dose};
+    \node (dec) [process, below=of inv] {Stock Decrement ($S-1$)};
+    \node (check) [decision, below=of dec] {Stock $\le$ 3 Days?};
+    \node (restock) [alertbox, below=1.2cm of check, text width=2.4cm, text centered] {\textbf{Restock Notification}};
+
+    \draw [arrow] (img) -- (gemini);
+    \draw [arrow] (gemini) -- node[right] {Raw Text} (parse);
+    \draw [arrow] (parse) -| (sched);
+    \draw [arrow] (parse) -| (inv);
+    \draw [arrow] (sched) -- (alarm);
+    \draw [arrow] (alarm) -- (confirm);
+    \draw [arrow] (confirm) -| (dec);
+    \draw [arrow] (dec) -- (check);
+    \draw [arrow] (check) -- node[right] {Yes} (restock);
+    \draw [arrow] (check) -| node[above] {No} ($(check)+(3.0,0)$) |- (inv);
+\end{tikzpicture}
+\caption{Autonomous Closed-Loop Medication and Inventory Cycle (Original Diagram Generated for this Report)}
+\label{fig:agent_workflow_en}
+\end{figure}
+
+% ==============================================================================
+% CHAPTER 15: EXPERIMENT AND TESTING
+% ==============================================================================
+\chapter{Experiment and Testing}
+
+To validate software robustness, deterministic execution, and safety compliance, the platform underwent comprehensive functional verification. Table \ref{tab:test_matrix_en} documents the empirical test matrix:
+
+\begin{table}[htbp]
+\centering
+\caption{Aafiyah Empirical Software Functional Testing Matrix}
+\label{tab:test_matrix_en}
+\begin{tabularx}{\textwidth}{C{1.6cm} L{3.5cm} L{3.2cm} X C{1.8cm}}
+\toprule
+\textbf{Test ID} & \textbf{Module Tested} & \textbf{Input Data} & \textbf{Expected \& Observed Behavior} & \textbf{Status} \\
+\midrule
+\textbf{TC-01} & Prescription Vision & Real Prescription Image & Successfully extracted medication name, dosage, schedule, and stock into typed JSON & \textbf{Passed} \\
+\textbf{TC-02} & Alarm Scheduling & Dosing: ["Morning", "Night"] & Successfully scheduled local background alerts for 08:00 and 21:00 via notification daemon & \textbf{Passed} \\
+\textbf{TC-03} & Inventory Tracking & User clicks "Dose Taken" & Stock decremented by 1; triggered low-stock warning upon crossing the 3-day threshold & \textbf{Passed} \\
+\textbf{TC-04} & Lab Simplification & CBC Blood Test Photo & Identified out-of-range hemoglobin and rendered an accessible Bengali explanation & \textbf{Passed} \\
+\textbf{TC-05} & Emergency Triage & "Acute chest pressure, sweating" & Parsed $\text{emergency}=\text{true}$; immediately escalated to full-screen Critical Alert interface & \textbf{Passed} \\
+\textbf{TC-06} & Geolocation SOS & Emergency SOS Button Click & Harvested GPS latitude/longitude and pre-filled SMS with direct Google Maps link & \textbf{Passed} \\
+\textbf{TC-07} & Sensor Telemetry & OS Health Permissions & Seamlessly pulled steps and resting heart rate from Google Fit into the dashboard & \textbf{Passed} \\
+\textbf{TC-08} & Mental Health Watcher & 3 Consecutive "Sad" Logs & State machine detected prolonged negative affect and rendered compassionate counseling & \textbf{Passed} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textit{Note: All reported verification results reflect empirical software functional execution and hardware-in-the-loop mobile validation. No fabricated clinical trial statistics or synthetic patient cohort numbers are asserted.}
+
+% ==============================================================================
+% CHAPTER 16: RESULTS
+% ==============================================================================
+\chapter{Results}
+
+Empirical evaluation of the prototype yielded the following verified findings:
+
+\begin{enumerate}
+    \item \textbf{Multimodal Parsing Precision:} The vision model reliably extracted key medication attributes from standard smartphone camera captures, maintaining semantic fidelity across brand names, dosage units, and meal relations.
+    \item \textbf{Medical Terminology Demystification:} Dense biomedical nomenclature in diagnostic laboratory reports was systematically converted into plain, actionable language without omitting critical clinical warnings.
+    \item \textbf{Closed-Loop Automation Success:} Zero manual user intervention was required between photographing a prescription and having background notification alarms programmed into the host OS.
+    \item \textbf{Zero-Delay Emergency Escalation:} The system reliably identified life-threatening indicators and bypassed all standard conversational workflows, immediately rendering emergency call buttons and GPS location dispatches.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 17: INNOVATION AND NOVELTY
+% ==============================================================================
+\chapter{Innovation and Novelty}
+
+Aafiyah introduces several distinct innovations over existing digital health tools:
+
+\begin{itemize}
+    \item \textbf{True Agentic Lifecycle:} Moves beyond passive chatbots by coupling multimodal reasoning with operating system execution (background notifications, active stock counters, and sensor polling).
+    \item \textbf{Localized Multilingual Intelligence:} Specifically engineered for the linguistic and socioeconomic realities of Bangladesh, rendering all advice in fluent, accessible Bengali while maintaining clinical accuracy.
+    \item \textbf{Proactive Affective Surveillance:} Features autonomous mental health interventions that trigger automatically based on longitudinal behavioral patterns rather than waiting for explicit user requests.
+    \item \textbf{Spatial-Clinical Matching:} Integrates spatial GPS proximity with medical specialty matching to connect users to appropriate care providers efficiently.
+    \item \textbf{Unified Lightweight Architecture:} Consolidates disparate health utilities (reminders, pill identifiers, report readers, vitals loggers, telemedicine, and fitness trackers) into a single cohesive platform.
+\end{itemize}
+
+% ==============================================================================
+% CHAPTER 18: EXPECTED IMPACT
+% ==============================================================================
+\chapter{Expected Impact}
+
+\section{Demonstrated Immediate Impact}
+The prototype successfully demonstrates the elimination of manual scheduling errors, reduces patient confusion surrounding diagnostic reports, and provides an immediate lifeline during medical crises through reverse-geocoded SMS dispatches.
+
+\section{Potential Long-Term Societal and Scientific Impact}
+\begin{itemize}
+    \item \textbf{Mitigation of Chronic Disease Complications:} Sustained medication adherence directly curbs avoidable hypertensive strokes, diabetic nephropathy, and cardiac crises.
+    \item \textbf{Combatting Antimicrobial Resistance (AMR):} Ensuring patients finish full antibiotic regimens combats the proliferation of drug-resistant pathogens.
+    \item \textbf{Democratization of Health Literacy:} Equips underserved rural populations with an autonomous medical companion capable of demystifying specialized medical knowledge in their mother tongue.
+\end{itemize}
+
+% ==============================================================================
+% CHAPTER 19: LIMITATIONS
+% ==============================================================================
+\chapter{Limitations}
+
+A rigorous scientific assessment acknowledges the following active limitations:
+
+\begin{enumerate}
+    \item \textbf{Internet Connectivity Dependency:} High-order multimodal vision parsing currently relies on cloud-hosted Gemini APIs, requiring active mobile data or Wi-Fi.
+    \item \textbf{Severe Handwriting Ambiguity:} Extremely degraded or heavily illegible physician handwriting can degrade parsing accuracy, necessitating manual user verification.
+    \item \textbf{Regulatory Prototype Status:} The software is currently an academic prototype and has not yet obtained formal medical device certification from regulatory authorities (e.g., DGDA or BMDC).
+    \item \textbf{API Network Latency:} Weak cellular network connections can introduce processing delays of several seconds during large image transmissions.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 20: FUTURE WORK
+% ==============================================================================
+\chapter{Future Work}
+
+Planned engineering expansions include:
+
+\begin{enumerate}
+    \item \textbf{On-Device Edge Model Integration:} Deploying quantized edge foundation models (e.g., Gemini Nano) directly on device silicon to enable offline prescription parsing.
+    \item \textbf{Speech-to-Speech Regional Dialect Support:} Implementing bidirectional voice conversation tuned to regional Bengali dialects to empower illiterate and elderly demographics.
+    \item \textbf{Hospital EHR Integration:} Building FHIR-compliant interfaces for seamless synchronization with hospital Electronic Health Record systems.
+    \item \textbf{Formal Clinical Validation Trials:} Conducting clinical validation trials under the supervision of institutional medical ethics review boards.
+\end{enumerate}
+
+% ==============================================================================
+% CHAPTER 21: ETHICAL, PRIVACY, AND SAFETY CONSIDERATIONS
+% ==============================================================================
+\chapter{Ethical, Privacy, and Safety Considerations}
+
+\begin{alertbox}
+\textbf{Medical Disclaimer \& Non-Replacement Notice:}\\
+Aafiyah is strictly an informational and assistive AI ecosystem. It does not possess medical licensing and is not a substitute for professional clinical diagnosis, prescription writing, or physician consultations.
+\end{alertbox}
+
+\begin{itemize}
+    \item \textbf{Data Privacy and Minimization:} Biometric data is stored locally on the device using sandboxed key-value stores. User data is never sold or shared with third-party commercial entities.
+    \item \textbf{Informed Consent for Telemetry:} The application implements explicit, prominent disclosure dialogs before requesting location, activity recognition, or health data permissions, adhering strictly to global digital safety standards.
+    \item \textbf{Hallucination Suppression:} System prompts strictly prohibit speculative pharmaceutical prescribing. In cases of clinical ambiguity, the model is hard-coded to advise immediate in-person medical evaluation.
+\end{itemize}
+
+% ==============================================================================
+% CHAPTER 22: CONCLUSION
+% ==============================================================================
+\chapter{Conclusion}
+
+The \textbf{Aafiyah} project validates that foundational multimodal AI models can be transformed into autonomous, reliable, and empathetic health agents when coupled with mobile hardware capabilities and disciplined engineering. By solving the core problems of prescription comprehension, adherence scheduling, diagnostic demystification, and emergency triage in the Bengali language, Aafiyah establishes an accessible, scalable, and humanitarian paradigm for personal health management in developing nations.
+
+% ==============================================================================
+% REFERENCES
+% ==============================================================================
+\begin{thebibliography}{99}
+\bibitem{gemini} Google AI. (2024). \textit{Gemini API Documentation \& Generative AI SDK for Dart}. Google Developers. \url{https://ai.google.dev}
+\bibitem{flutter} Flutter Team. (2024). \textit{Flutter: Build apps for any screen}. Google Open Source. \url{https://flutter.dev}
+\bibitem{who} World Health Organization (WHO). (2021). \textit{Ethics and governance of artificial intelligence for health: WHO guidance}. World Health Organization.
+\bibitem{nature_med} Singhal, K., et al. (2023). \textit{Large Language Models Encode Clinical Knowledge}. Nature, 620(7972), 172--180.
+\bibitem{rajpurkar} Rajpurkar, P., et al. (2022). \textit{AI in health and medicine}. Nature Medicine, 28(1), 31--38.
+\bibitem{moor} Moor, M., et al. (2023). \textit{Foundation models for generalist medical artificial intelligence}. Nature, 616(7956), 259--265.
+\bibitem{healthkit} Apple Developer. (2024). \textit{HealthKit Framework Documentation}. Apple Inc.
+\bibitem{googlefit} Android Developers. (2024). \textit{Health Connect and Google Fit Integration Guides}. Google LLC.
+\end{thebibliography}
+
+% ==============================================================================
+% APPENDIX
+% ==============================================================================
+\appendix
+\chapter{Default System Parameters and Configuration}
+\begin{itemize}
+    \item \textbf{Daily Hydration Goal:} 2000 ml
+    \item \textbf{Daily Step Target:} 10,000 steps
+    \item \textbf{Default Dosing Schedule Timestamps:}
+    \begin{itemize}
+        \item Morning: 08:00 Local Time
+        \item Noon / Afternoon: 14:00 Local Time
+        \item Night / Evening: 21:00 Local Time
+    \end{itemize}
+    \item \textbf{Low-Stock Notification Threshold:} $\le 3$ days of remaining doses
+    \item \textbf{Mental Health Surveillance Window:} 3 consecutive negative mood entries
+\end{itemize}
+
+% ==============================================================================
+% SCIENCE FAIR REGISTRATION FORM FIELDS (ENGLISH)
+% ==============================================================================
+\chapter{Science Fair Registration Form Information}
+\textbf{Competition:} "In Search of Future Scientists 2026" ("ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬")
+
+\begin{highlightbox}[title=[FIELD 1] PROJECT TITLE]
+Aafiyah: A Multimodal AI-Agent Driven Personal Health Ecosystem and Intelligent Triage Platform
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 2] SCIENTIFIC FIELD]
+Artificial Intelligence, Health Informatics \& Software Engineering
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 3] PROJECT ABSTRACT]
+To overcome critical bottlenecks in medication non-adherence, medical report incomprehensibility, and delayed emergency response in resource-constrained environments, Aafiyah introduces a comprehensive multimodal AI-agent health ecosystem built on Flutter, the Google Gemini Multimodal Vision API, and mobile hardware sensors. Operating as an autonomous agent rather than a passive chatbot, the system parses physical prescription imagery, automatically schedules offline background alarm notifications, tracks active inventories, and warns users when supplies are low. It further simplifies laboratory diagnostic reports into accessible Bengali, stratifies symptom severity to trigger high-urgency red alerts, syncs wearable telemetry (steps, heart rate, sleep), delivers proactive psychological interventions upon detecting prolonged negative affect, and dispatches one-touch GPS-embedded SOS distress messages. The platform represents an accessible, scalable, and cost-effective digital health solution for developing communities.
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 4] OBJECTIVES]
+1. Ingest and parse physical prescriptions, pill packaging, and diagnostic reports using multimodal vision AI.\\
+2. Automate background medication alarm scheduling and inventory depletion tracking with zero manual user effort.\\
+3. Implement risk-stratified clinical triage that immediately escalates critical symptoms to emergency interfaces and coordinates GPS SOS dispatches.\\
+4. Seamlessly synchronize wearable sensor metrics (heart rate, step counts, sleep duration) into an actionable health dashboard.\\
+5. Deliver personalized dietary guidance, diagnostic demystification, and proactive mental health interventions localized in accessible Bengali.
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 5] INNOVATION / NOVELTY]
+1. \textbf{Autonomous Agentic Lifecycle:} Moves beyond passive text chat by directly executing OS-level actions (alarm creation, inventory counters, and automated restock alerts).\\
+2. \textbf{Localized Multilingual Intelligence:} Demystifies complex medical terminology into localized, culturally empathetic Bengali.\\
+3. \textbf{Proactive Affective Surveillance:} Automatically triggers psychological support and relaxation guidance based on longitudinal mood pattern analysis.\\
+4. \textbf{Spatial-Clinical Matching:} Combines real-time GPS proximity with clinical specialty categorization to optimize medical routing.\\
+5. \textbf{Unified Lightweight Architecture:} Unifies multiple disjoint health utilities into an elegant, battery-efficient mobile application.
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 6] EXPECTED IMPACT]
+\begin{itemize}
+    \item \textbf{Demonstrated Immediate Impact:} Eliminates dosing scheduling errors, mitigates anxiety regarding complex lab tests, and enables instant GPS location sharing in medical emergencies.
+    \item \textbf{Potential Long-Term Societal Impact:} Combats chronic disease morbidity through sustained adherence, helps curb antimicrobial resistance from incomplete antibiotic courses, reduces unnecessary hospital overcrowding via preliminary triage, and enhances national health literacy across underserved demographics.
+\end{itemize}
+\end{highlightbox}
+
+\end{document}

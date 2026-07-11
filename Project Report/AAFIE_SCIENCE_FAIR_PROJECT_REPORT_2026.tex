@@ -1,0 +1,847 @@
+% !TEX program = xelatex
+% !TEX encoding = UTF-8 Unicode
+% ==============================================================================
+% ভবিষ্য়ৎ বিজ্ঞানীর খোঁজে ২০২৬ — আনুষ্ঠানিক বিজ্ঞান মেলা প্রকল্প প্রতিবেদন
+% National Science Fair & Engineering Research Project Report
+% Project Name: Aafiyah (আফিয়াহ)
+% Author: Md Khan Bahadur Sadi (মো. খান বাহাদুর সাদী)
+% ==============================================================================
+% Recommended Compiler: XeLaTeX or LuaLaTeX (with Noto Serif Bengali or Kalpurush)
+% On Overleaf: Menu -> Compiler -> Select "XeLaTeX"
+% ==============================================================================
+
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ------------------------------------------------------------------------------
+% 1. Page Geometry & Margins
+% ------------------------------------------------------------------------------
+\usepackage[top=25mm, bottom=25mm, left=28mm, right=25mm, headheight=16pt]{geometry}
+
+% ------------------------------------------------------------------------------
+% 2. Fonts & Multilingual Typography (XeLaTeX / LuaLaTeX)
+% ------------------------------------------------------------------------------
+\usepackage{iftex}
+\ifXeTeX
+\else\ifLuaTeX
+\else
+  \errmessage{ERROR: Bengali typography and fontspec require XeLaTeX or LuaLaTeX. Please change your compiler engine from pdfLaTeX to xelatex or lualatex.}
+\fi\fi
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+
+\setmainlanguage{bengali}
+\setotherlanguage{english}
+
+% Intelligent font fallback for Bengali and English across Windows, Linux, macOS, and Overleaf
+\defaultfontfeatures{Ligatures=TeX}
+\IfFontExistsTF{Noto Serif Bengali}{
+    \setmainfont[Script=Bengali]{Noto Serif Bengali}
+    \newfontfamily\bengalifont[Script=Bengali]{Noto Serif Bengali}
+}{
+    \IfFontExistsTF{Kalpurush}{
+        \setmainfont[Script=Bengali]{Kalpurush}
+        \newfontfamily\bengalifont[Script=Bengali]{Kalpurush}
+    }{
+        \IfFontExistsTF{SolaimanLipi}{
+            \setmainfont[Script=Bengali]{SolaimanLipi}
+            \newfontfamily\bengalifont[Script=Bengali]{SolaimanLipi}
+        }{
+            \IfFontExistsTF{FreeSerif}{
+                \setmainfont[Script=Bengali]{FreeSerif}
+                \newfontfamily\bengalifont[Script=Bengali]{FreeSerif}
+            }{
+                % Fallback
+            }
+        }
+    }
+}
+
+\IfFontExistsTF{Times New Roman}{
+    \newfontfamily\englishfont{Times New Roman}
+}{
+    \IfFontExistsTF{DejaVu Serif}{
+        \newfontfamily\englishfont{DejaVu Serif}
+    }{
+        \newfontfamily\englishfont{FreeSerif}
+    }
+}
+
+% ------------------------------------------------------------------------------
+% 3. Graphic & Visual Enhancements
+% ------------------------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{../Screenshot/}{Screenshot/}{../}{./}}
+
+\usepackage[table,xcdraw]{xcolor}
+\definecolor{primaryTeal}{HTML}{00897B}
+\definecolor{deepEmerald}{HTML}{004D40}
+\definecolor{accentCoral}{HTML}{FF6F61}
+\definecolor{darkSlate}{HTML}{263238}
+\definecolor{softGray}{HTML}{F8F9FA}
+\definecolor{borderGray}{HTML}{CFD8DC}
+\definecolor{alertRed}{HTML}{D32F2F}
+\definecolor{codeBackground}{HTML}{ECEFF1}
+
+% ------------------------------------------------------------------------------
+% 4. Custom Boxes & Frames (tcolorbox)
+% ------------------------------------------------------------------------------
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{highlightbox}[1][]{
+    enhanced,
+    colback=softGray,
+    colframe=primaryTeal,
+    arc=4mm,
+    boxrule=1.2pt,
+    left=15pt,
+    right=15pt,
+    top=12pt,
+    bottom=12pt,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=primaryTeal,
+    attach boxed title to top left={yshift=-2mm, xshift=5mm},
+    boxed title style={sharp corners=downhill, arc=2mm},
+    #1
+}
+
+\newtcolorbox{alertbox}[1][]{
+    enhanced,
+    colback=white,
+    colframe=alertRed,
+    arc=3mm,
+    boxrule=1.5pt,
+    left=15pt,
+    right=15pt,
+    top=10pt,
+    bottom=10pt,
+    #1
+}
+
+% ------------------------------------------------------------------------------
+% 5. Tables & Arrays
+% ------------------------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.4}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% ------------------------------------------------------------------------------
+% 6. Headers, Footers & Section Titles
+% ------------------------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{darkSlate}{\small আফিয়াহ (Aafiyah) — বিজ্ঞান মেলা প্রকল্প প্রতিবেদন ২০২৬}}
+\fancyhead[R]{\textcolor{primaryTeal}{\small ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬}}
+\fancyfoot[C]{\textcolor{darkSlate}{\thepage}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{deepEmerald}}{\chaptertitlename\ \thechapter}{15pt}{\Huge\color{deepEmerald}}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{deepEmerald}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{primaryTeal}}{\thesubsection}{1em}{}
+
+% ------------------------------------------------------------------------------
+% 7. TikZ & Mermaid Alternative Diagrams
+% ------------------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, shadows, fit}
+
+\tikzset{
+    startstop/.style={rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=deepEmerald, fill=softGray, drop shadow, font=\small\bfseries},
+    io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=primaryTeal, fill=white, drop shadow, font=\small},
+    process/.style={rectangle, minimum width=2.8cm, minimum height=1.2cm, text centered, text width=2.5cm, draw=primaryTeal, fill=softGray, drop shadow, font=\small},
+    decision/.style={diamond, aspect=2, minimum width=2.5cm, minimum height=1cm, text centered, text width=2cm, draw=accentCoral, fill=white, drop shadow, font=\small\bfseries},
+    arrow/.style={thick, ->, >=Stealth, color=darkSlate}
+}
+
+% ------------------------------------------------------------------------------
+% 8. Hyperlinks & Metadata
+% ------------------------------------------------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=deepEmerald,
+    citecolor=primaryTeal,
+    filecolor=accentCoral,
+    urlcolor=primaryTeal,
+    pdftitle={আফিয়াহ (Aafiyah) — বিজ্ঞান মেলা প্রকল্প প্রতিবেদন ২০২৬},
+    pdfauthor={Md Khan Bahadur Sadi},
+    pdfsubject={ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬ - বিজ্ঞান প্রকল্প প্রতিবেদন},
+    pdfkeywords={AI Agent, Health Informatics, Flutter, Gemini Vision, Telemedicine, Science Fair}
+}
+
+% ==============================================================================
+% DOCUMENT BEGINS
+% ==============================================================================
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% FORMAL COVER PAGE (প্রচ্ছদ পৃষ্ঠা)
+% ------------------------------------------------------------------------------
+\begin{titlepage}
+    \begin{tcolorbox}[
+        enhanced,
+        colback=white,
+        colframe=deepEmerald,
+        arc=0mm,
+        boxrule=2.5pt,
+        height=\textheight,
+        left=20pt,
+        right=20pt,
+        top=25pt,
+        bottom=25pt
+    ]
+    \centering
+    
+    \vspace*{0.3cm}
+    {\scshape\Large গণপ্রজাতন্ত্রী বাংলাদেশ সরকার অনুমোদিত জাতীয় বিজ্ঞান প্রতিযোগিতা \par}
+    \vspace{0.4cm}
+    {\Huge\bfseries\textcolor{accentCoral}{"ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬"}\par}
+    \vspace{0.2cm}
+    {\large\bfseries জাতীয় বিজ্ঞান মেলা ও উদ্ভাবনী প্রতিযোগিতা ২০২৬ \par}
+    
+    \vspace{1.0cm}
+    \rule{\linewidth}{1.5pt}\\[0.4cm]
+    {\huge\bfseries\textcolor{deepEmerald}{আফিয়াহ (Aafiyah)}\par}
+    \vspace{0.3cm}
+    {\Large\bfseries প্রান্তিক ও সামগ্রিক জনস্বাস্থ্যের সুরক্ষায় মাল্টিমোডাল এআই-এজেন্ট ভিত্তিক স্বয়ংক্রিয় স্বাস্থ্যসেবা ও ব্যক্তিগত পরিচর্যা প্ল্যাটফর্ম\par}
+    \vspace{0.2cm}
+    {\normalsize\textit{(A Multimodal AI-Agent Driven Personal Health Ecosystem and Intelligent Triage Platform)}\par}
+    \rule{\linewidth}{1.5pt}
+    
+    \vspace{1.2cm}
+    \begin{minipage}[t]{0.48\textwidth}
+        \flushleft
+        \textbf{\large জমা প্রদানকারী (Participant):}\\[0.2cm]
+        \textbf{\Large মো. খান বাহাদুর সাদী}\\[0.1cm]
+        \textit{(Md Khan Bahadur Sadi)}\\[0.2cm]
+        \textbf{ভূমিকা:} একক গবেষক ও সফটওয়্যার উদ্ভাবক\\[0.1cm]
+        \textbf{ইমেইল:} \href{mailto:khanbahadursadi@gmail.com}{khanbahadursadi@gmail.com}\\[0.1cm]
+        \textbf{শিক্ষা প্রতিষ্ঠান:} [প্রতিযোগীর শিক্ষা প্রতিষ্ঠানের নাম]
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \flushright
+        \textbf{\large বৈজ্ঞানিক ক্ষেত্র (Field):}\\[0.2cm]
+        কৃত্রিম বুদ্ধিমত্তা ও সফটওয়্যার ইঞ্জিনিয়ারিং\\
+        \textit{(Artificial Intelligence \& Software)}\\[0.2cm]
+        স্বাস্থ্য তথ্যপ্রযুক্তি \textit{(Health Informatics)}\\[0.5cm]
+        \textbf{জমা প্রদানের বর্ষ:}\\
+        ২০২৬ খ্রিষ্টাব্দ
+    \end{minipage}
+
+    \vfill
+    {\large\textbf{বিষয়শ্রেণী: প্রজেক্ট রিপোর্ট (সিনিয়র/উদ্ভাবনী শাখা)}\par}
+    \vspace{0.3cm}
+    \textcolor{deepEmerald}{\rule{8cm}{0.8pt}}\\[0.2cm]
+    {\small\textbf{প্রকল্প কোডবেস ও উন্মুক্ত প্রদর্শনী:} GitHub — MdKhanBahadurSadi/Aafiyah}
+    \end{tcolorbox}
+\end{titlepage}
+
+% ------------------------------------------------------------------------------
+% PRELIMINARY PAGES: Table of Contents, Figures, Tables
+% ------------------------------------------------------------------------------
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ==============================================================================
+% অধ্যায় ১: সারসংক্ষেপ (ABSTRACT)
+% ==============================================================================
+\chapter{সারসংক্ষেপ (Abstract)}
+
+\begin{highlightbox}[title=বৈজ্ঞানিক সারসংক্ষেপ (Scientific Abstract)]
+উন্নয়নশীল দেশগুলোতে দক্ষ চিকিৎসকের ঘাটতি, জটিল স্বাস্থ্য সংক্রান্ত নথিপত্র বোঝার অক্ষমতা, প্রেসক্রিপশন অনুযায়ী নিয়মিত ঔষধ গ্রহণের অসচেতনতা এবং জরুরি পরিস্থিতিতে দ্রুত সিদ্ধান্তহীনতা একটি গুরুতর জনস্বাস্থ্য সংকট সৃষ্টি করে। এই বৈজ্ঞানিক ও প্রকৌশলগত প্রকল্পের মূল লক্ষ্য হলো একটি মাল্টিমোডাল কৃত্রিম বুদ্ধিমত্তা এজেন্ট (Multimodal AI Agent) ভিত্তিক পূর্ণাঙ্গ স্বাস্থ্য পরিচর্যা প্ল্যাটফর্ম—\textbf{"আফিয়াহ" (Aafiyah)} তৈরি করা, যা সাধারণ নাগরিকের দৈনন্দিন স্বাস্থ্য ব্যবস্থাপনা ও প্রাথমিক সিদ্ধান্ত গ্রহণে বাস্তবসম্মত সহায়তা প্রদান করে।
+
+সিস্টেমটি ক্রস-প্ল্যাটফর্ম ফ্রেমওয়ার্ক ফ্লাটার (Flutter), গুগল জেমিনি লার্জ ল্যাঙ্গুয়েজ ও ভিশন মডেল (Google Gemini Vision API), ক্লাউড ও লোকাল স্টোরেজ (Firebase ও SharedPreferences), এবং ডিভাইস হার্ডওয়্যার সেন্সর ইন্টারফেসের (HealthKit/Google Fit ও GPS) সমন্বয়ে নির্মিত। সাধারণ চ্যাটবট কেবল টেক্সট নির্ভর উত্তর দিলেও, 'আফিয়াহ' একটি বাস্তব এজেন্টিক সিস্টেম (Agentic System) হিসেবে কাজ করে। এটি প্রেসক্রিপশনের ছবি বিশ্লেষণ করে স্বয়ংক্রিয়ভাবে ঔষধের নাম, সেবনবিধি ও ডোজ নির্ধারণ করে লোকাল অ্যালার্ম নোটিফিকেশন শিডিউল করে এবং ইনভেন্টরি ট্র্যাকিংয়ের মাধ্যমে ঔষধ ফুরিয়ে যাওয়ার আগেই রিস্টক অ্যালার্ট পাঠায়।
+
+এছাড়াও প্ল্যাটফর্মটিতে রয়েছে বাংলা ভাষায় ল্যাব রিপোর্ট ও ঔষধের পাতা বিশ্লেষণ (Pill Identifier), প্রামাণ্য লক্ষণ মূল্যায়ন (Symptom Genius), মানসিক স্বাস্থ্যের গতিপ্রকৃতি পর্যবেক্ষণ করে স্বপ্রণোদিত সহানুভূতিশীল সহায়তা প্রদান, রক্তচাপ ও হাইড্রেশন ট্র্যাকিং এবং জরুরি পরিস্থিতিতে জিপিএস লোকেশনসহ দ্রুত এসওএস (SOS) বার্তা প্রেরণ ও নিকটস্থ বিশেষজ্ঞ ডাক্তার সুপারিশ ব্যবস্থা। কার্যকরী পরীক্ষায় প্ল্যাটফর্মটি সফলভাবে প্রেসক্রিপশন ও ল্যাব রিপোর্টের জটিল মেডিক্যাল তথ্যকে সহজবোধ্য বাংলায় রূপান্তর করতে, স্বয়ংক্রিয় শিডিউলিং সম্পাদন করতে এবং জরুরি লক্ষণ শনাক্ত করে সংকটকালীন ইন্টারফেস উন্মোচন করতে সক্ষম হয়েছে। এই গবেষণা প্রমাণ করে যে, লার্জ ল্যাঙ্গুয়েজ মডেল এবং মোবাইল এজ-হার্ডওয়্যারের সমন্বয় সাধারণ মানুষের স্বাস্থ্য সচেতনতা বৃদ্ধিতে ও স্বাস্থ্য বৈষম্য হ্রাসে একটি যুগোপযোগী ও সাশ্রয়ী বৈজ্ঞানিক সমাধান হতে পারে।
+\end{highlightbox}
+
+% ==============================================================================
+% অধ্যায় ২: ভূমিকা ও প্রেক্ষাপট (INTRODUCTION)
+% ==============================================================================
+\chapter{ভূমিকা (Introduction)}
+
+আধুনিক চিকিৎসাবিজ্ঞানের অভূতপূর্ব উন্নতি সত্ত্বেও সার্বজনীন স্বাস্থ্য সুরক্ষার সুবিধা আজও সর্বস্তরের মানুষের কাছে সমভাবে পৌঁছায়নি। উন্নয়নশীল ও ঘনবসতিপূর্ণ অঞ্চলে প্রাতিষ্ঠানিক স্বাস্থ্যসেবার ওপর প্রচণ্ড চাপ, চিকিৎসক-রোগীর অনুপাতের বিশাল ব্যবধান এবং সাধারণ মানুষের মাঝে স্বাস্থ্য সাক্ষরতার (Health Literacy) সীমাবদ্ধতা বিদ্যমান।
+
+বাংলাদেশে ও অনুরূপ আর্থ-সামাজিক প্রেক্ষাপটে রোগীদের একটি বড় অংশ ডাক্তারের প্রেসক্রিপশনে লিখিত জটিল নির্দেশনা যথাযথভাবে বুঝতে ব্যর্থ হন, যার ফলে যথাসময়ে সঠিক মাত্রায় ঔষধ সেবন করা হয় না (Medication Non-adherence)। বিশ্ব স্বাস্থ্য সংস্থার (WHO) একাধিক গবেষণায় প্রমাণিত হয়েছে যে, ক্রনিক রোগীদের প্রায় ৫০\% সঠিক নিয়মে ঔষধ সেবন করেন না, যার পরিণামে স্ট্রোক, কিডনি ফেইলিউর এবং ড্রাগ-রেজিস্ট্যান্সের মতো মারাত্মক জটিলতা তৈরি হয়। একই সাথে ল্যাবরেটরি টেস্ট রিপোর্টের জটিল বায়োকেমিক্যাল পরিভাষা সাধারণ মানুষের বোধগম্য না হওয়ায় তারা পরীক্ষার ফলাফল হাতে পাওয়ার পরেও তাৎক্ষণিক গুরুত্ব অনুধাবন করতে পারেন না। তাছাড়া প্রাথমিক শারীরিক লক্ষণের তীব্রতা পরিমাপ করতে না পেরে অনেকেই জরুরি চিকিৎসার সুযোগ হারান অথবা অপ্রয়োজনীয় আতঙ্কে ভোগেন।
+
+কৃত্রিম বুদ্ধিমত্তা (Artificial Intelligence) এবং বিশেষ করে এজেন্টিক ওয়ার্কফ্লো (Agentic Workflow)—যেখানে এআই কেবল নিষ্ক্রিয়ভাবে প্রশ্নের উত্তর না দিয়ে স্বায়ত্তশাসিতভাবে পরিবেশ পর্যবেক্ষণ করে, সিদ্ধান্ত নেয় এবং সংশ্লিষ্ট টুল ও সিস্টেমের মাধ্যমে পদক্ষেপ গ্রহণ করে—এই ধরনের কাঠামোগত সমস্যা সমাধানের নতুন দ্বার উন্মোচন করেছে। "আফিয়াহ" প্রকল্পটির সূচনা হয়েছে মূলত এই বিজ্ঞানমনস্ক চিন্তাধারা থেকে: কীভাবে মোবাইল প্রযুক্তির মাধ্যমে একজন নাগরিকের পকেটে একজন সার্বক্ষণিক, সহানুভূতিশীল ও বুদ্ধিমান স্বাস্থ্য সহকারী পৌঁছে দেওয়া যায়, যা রোগীকে স্বাবলম্বী করবে এবং চিকিৎসকের পরিপূরক হিসেবে প্রাথমিক নজরদারির দায়িত্ব পালন করবে।
+
+% ==============================================================================
+% অধ্যায় ৩: সমস্যা বিবৃতি (PROBLEM STATEMENT)
+% ==============================================================================
+\chapter{সমস্যা বিবৃতি (Problem Statement)}
+
+স্বাস্থ্যসেবা ব্যবস্থাপনায় বিদ্যমান প্রধান বৈজ্ঞানিক ও ব্যবহারিক সমস্যাসমূহ নিম্নরূপ:
+
+\begin{enumerate}
+    \item \textbf{প্রেসক্রিপশন ও ওষুধের অপপ্রয়োগ (Medication Mismanagement):} হাতে লেখা বা জটিল প্রেসক্রিপশনের কারণে রোগীরা প্রায়ই ভুল সময়ে ঔষধ গ্রহণ করেন অথবা কোর্স শেষ হওয়ার আগেই বন্ধ করে দেন। কোন ঔষধটি খাবারের আগে নাকি পরে খেতে হবে, তা ভুলে যাওয়া একটি সাধারণ ঘটনা।
+    \item \textbf{মেডিক্যাল রিপোর্টের জটিলতা (Incomprehensibility of Reports):} রক্ত পরীক্ষা বা বায়োকেমিক্যাল টেস্ট রিপোর্টের সাংখ্যিক মান ও চিকিৎসাবিজ্ঞানীয় পরিভাষা সাধারণ মানুষের বোধগম্য নয়। রিপোর্ট নিয়ে চিকিৎসকের কাছে পৌঁছানোর মধ্যবর্তী সময়ে রোগী চরম মানসিক দ্বিধাদ্বন্দ্বে থাকেন।
+    \item \textbf{জরুরি অবস্থা শনাক্তকরণ ও স্বাস্থ্য ট্রিয়েজের অভাব (Lack of Early Triage):} হঠাৎ দেখা দেওয়া লক্ষণ সাধারণ অসুস্থতা নাকি জরুরি চিকিৎসার দাবিদার (যেমন স্ট্রোক, হার্ট অ্যাটাক বা একিউট ইনফেকশন), তা নির্ধারণের কোনো তাৎক্ষণিক বৈজ্ঞানিক সহায়িকা সাধারণ নাগরিকের হাতের কাছে থাকে না।
+    \item \textbf{বিক্ষিপ্ত স্বাস্থ্য ডেটা ও ধারাবাহিক নজরদারির অনুপস্থিতি (Fragmented Health Tracking):} দৈনন্দিন রক্তচাপ, হাঁটার পরিমাণ (Steps), শারীরিক কার্যক্ষমতা, হাইড্রেশন এবং মানসিক সুস্থতার ডেটা আলাদা আলাদা থাকে, ফলে কোনো সামগ্রিক স্বাস্থ্য বিশ্লেষণ সম্ভব হয় না।
+    \item \textbf{জরুরি সহায়তায় ভৌগোলিক বিলম্ব (Geographic \& Logistical Delays):} সংকটাপন্ন মুহূর্তে সঠিক বিশেষজ্ঞ চিকিৎসকের অবস্থান জানা বা স্বজনদের কাছে তাৎক্ষণিক জিপিএস লোকেশনসহ বিপদবার্তা পাঠানো অনেক সময় অসম্ভব হয়ে পড়ে।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ৪: গবেষণার প্রেরণা (MOTIVATION)
+% ==============================================================================
+\chapter{গবেষণার প্রেরণা (Motivation)}
+
+এই গবেষণামূলক প্রজেক্টের পেছনে কাজ করেছে কিছু বাস্তব ও সামাজিক প্রেক্ষাপট:
+\begin{itemize}
+    \item \textbf{আঞ্চলিক ও সামাজিক বাস্তবতা:} আমাদের দেশের অধিকাংশ পরিবারে প্রবীণ সদস্য বা দীর্ঘমেয়াদী রোগে (উচ্চ রক্তচাপ ও ডায়াবেটিস) আক্রান্ত ব্যক্তিরা থাকেন। পরিবারের তরুণরা কর্মব্যস্ত থাকায় প্রবীণদের প্রতিদিনের ওষুধ গ্রহণ এবং স্বাস্থ্য নজরদারিতে প্রায়শই বিচ্যুতি ঘটে।
+    \item \textbf{প্রযুক্তির অগ্রগতি ও সুযোগ:} বর্তমানে আধুনিক মোবাইল ডিভাইসে উচ্চমানের ক্যামেরা, জিপিএস এবং হেলথ ট্র্যাকিং সেন্সর অন্তর্ভুক্ত রয়েছে। সাথে যুক্ত হয়েছে লার্জ ল্যাঙ্গুয়েজ মডেলের মাল্টিমোডাল ভিশন ক্ষমতা। এই প্রযুক্তিগুলোকে একত্রিত করে একটি সুসংহত স্বাস্থ্য ইকোসিস্টেম তৈরি করার বাস্তব সুযোগ সৃষ্টি হয়েছে।
+    \item \textbf{মানবিক ও সহানুভূতিশীল এপ্রোচ:} চিকিৎসা কেবল গাণিতিক ওষুধ সেবন নয়; রোগীর মানসিক প্রশান্তি, ধর্মীয় ও নৈতিক মূল্যবোধের প্রতি শ্রদ্ধাশীল সহানুভূতিশীল যোগাযোগ আরোগ্য প্রক্রিয়ায় ইতিবাচক ভূমিকা রাখে। এই কারণে সিস্টেমটিতে "আফিয়াহ" (পরিপূর্ণ সুস্থতা ও কল্যাণ) নামক একটি মানবিক ও শ্রদ্ধাশীল এজেন্টিক চরিত্র সংযোজন করা হয়েছে।
+\end{itemize}
+
+% ==============================================================================
+% অধ্যায় ৫: প্রকল্পের সুনির্দিষ্ট উদ্দেশ্যসমূহ (OBJECTIVES)
+% ==============================================================================
+\chapter{প্রকল্পের সুনির্দিষ্ট উদ্দেশ্যসমূহ (Objectives)}
+
+প্রকল্পটির মূল লক্ষ্যসমূহকে সুনির্দিষ্ট ও পরিমাপযোগ্য কয়েকটি ধাপে ভাগ করা হয়েছে:
+
+\begin{enumerate}
+    \item \textbf{মাল্টিমোডাল ভিশন প্রসেসিং নিশ্চিতকরণ:} মোবাইল ক্যামেরার মাধ্যমে ধারণকৃত প্রেসক্রিপশন, ওষুধের স্ট্রিপ (Pill Blister) এবং ল্যাব রিপোর্টের ছবি বিশ্লেষণ করে সঠিক তথ্য নিষ্কাশন করা।
+    \item \textbf{স্বয়ংক্রিয় শিডিউলিং ও ইনভেন্টরি ট্র্যাকিং অ্যালগরিদম বাস্তবায়ন:} প্রেসক্রিপশন থেকে ওষুধের সময়সূচি (সকাল/দুপুর/রাত) এবং মোট দিনসংখ্যা নির্ধারণ করে স্বয়ংক্রিয় ব্যাকগ্রাউন্ড নোটিফিকেশন কার্যকর করা এবং ৩ দিনের স্টক বাকি থাকলে রিস্টক অ্যালার্ট দেওয়া।
+    \item \textbf{ক্লিনিক্যাল ট্রিয়েজ ও ঝুঁকিনির্ভর জরুরি অ্যালার্ট ব্যবস্থা:} ব্যবহারকারীর লক্ষণ, বয়স ও লিঙ্গ বিশ্লেষণ করে রোগের তীব্রতা (\textit{Low/Medium/High}) ও ইমার্জেন্সি স্ট্যাটাস নির্ধারণ করে তাৎক্ষণিক জরুরি পদক্ষেপ স্ক্রিনে রূপান্তর করা।
+    \item \textbf{ওয়্যারবল ও হেলথ সেন্সর ইন্টিগ্রেশন:} গুগল ফিট ও অ্যাপল হেলথ এপিআই এর মাধ্যমে হার্ট রেট, স্টেপস ও স্লিপ ডেটা সংগ্রহ করে ড্যাশবোর্ডে প্রদর্শন ও বিশ্লেষণ করা।
+    \item \textbf{স্থানীয়করণ ও সহজবোধ্য মাতৃভাষায় উপস্থাপন:} জটিল সব স্বাস্থ্য রিপোর্ট ও পরামর্শকে মাতৃভাষা বাংলায় সহজ ও প্রাঞ্জলভাবে উপস্থাপন করা।
+    \item \textbf{ভূ-অবস্থানভিত্তিক ডাক্তার সুপারিশ ও এসওএস (SOS):} ব্যবহারকারীর লক্ষণ ও বর্তমান জিপিএস কোঅর্ডিনেট বিশ্লেষণ করে নিকটস্থ উপযুক্ত বিশেষজ্ঞ ডাক্তার প্রস্তাব করা এবং এক ক্লিকে জিপিএস ট্র্যাকিং লিংকসহ স্বজনকে জরুরি এসএমএস প্রেরণ করা।
+    \item \textbf{গেমিফিকেশন ও মানসিক স্বাস্থ্য নজরদারি:} একটানা ইতিবাচক স্বাস্থ্য অভ্যাসের জন্য স্ট্রিক রিওয়ার্ড এবং ৩ দিন টানা বিষণ্ণতা শনাক্ত হলে স্বপ্রণোদিত মানসিক স্বাস্থ্য সহায়তা প্রদান করা।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ৬: প্রস্তাবিত বৈজ্ঞানিক সমাধান (PROPOSED SOLUTION)
+% ==============================================================================
+\chapter{প্রস্তাবিত বৈজ্ঞানিক সমাধান (Proposed Solution)}
+
+"আফিয়াহ" একটি একক মোবাইল ফ্রেমওয়ার্কের ভেতরে সমন্বিত ইন্টেলিজেন্ট হেলথ অ্যাসিস্ট্যান্ট হিসেবে কাজ করে। এর প্রস্তাবিত সমাধান কাঠামোর তিনটি মূল স্তর রয়েছে:
+
+\begin{enumerate}
+    \item \textbf{উপলব্ধি ও তথ্য গ্রহণ স্তর (Perception \& Ingestion Layer):} ব্যবহারকারী টেক্সট, ক্যামেরা ইমেজ (প্রেসক্রিপশন/ওষুধ/রিপোর্ট) কিংবা ওয়্যারেবল সেন্সর ডেটার মাধ্যমে সিস্টেমের সাথে যুক্ত হন।
+    \item \textbf{এজেন্টিক যুক্তি ও সিদ্ধান্ত গ্রহণ স্তর (Reasoning \& Decision Layer):} গুগল জেমিনি ভিশন ও ল্যাঙ্গুয়েজ মডেলের সাহায্যে ব্যাকএন্ডে একটি কাস্টম প্রম্পট পাইপলাইন কাজ করে, যা কাঁচা ডেটাকে স্ট্রাকচার্ড ডেটায় (JSON ফরম্যাটে) রূপান্তর করে। এই স্তরটি পরিস্থিতি মূল্যায়ন করে সিদ্ধান্ত নেয় কোন সাব-সিস্টেম চালু করতে হবে (যেমন: শিডিউলার, ইনভেন্টরি ট্র্যাকার, ইমার্জেন্সি হ্যান্ডলার)।
+    \item \textbf{স্বয়ংক্রিয় পদক্ষেপ ও আউটপুট স্তর (Action \& Presentation Layer):} অ্যালার্ম তৈরি, লোকাল স্টোরেজে ওষুধের স্টক সংরক্ষণ, ইন্টারেক্টিভ চার্ট রেন্ডারিং এবং জরুরি মুহূর্তে ভৌগোলিক স্থানাঙ্কসহ টেলিকমিউনিকেশন চ্যানেল চালু করা।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ৭: বৈজ্ঞানিক ও প্রকৌশলগত মূলনীতি (SCIENTIFIC PRINCIPLES)
+% ==============================================================================
+\chapter{বৈজ্ঞানিক ও প্রকৌশলগত মূলনীতি (Principles)}
+
+প্রকল্পটি আধুনিক কম্পিউটার সায়েন্স ও সফটওয়্যার ইঞ্জিনিয়ারিংয়ের সুনির্দিষ্ট বৈজ্ঞানিক নীতির ওপর প্রতিষ্ঠিত:
+
+\begin{itemize}
+    \item \textbf{লার্জ ল্যাঙ্গুয়েজ মডেল ও মাল্টিমোডাল ভিশন (LLM \& Multimodal Vision):} ঐতিহ্যবাহী অপটিক্যাল ক্যারেক্টার রিকগনিশন (OCR) কেবল অক্ষর শনাক্ত করতে পারে, কিন্তু অক্ষরের ব্যাকরণগত বা চিকিৎসাবিজ্ঞানীয় প্রেক্ষাপট বুঝতে পারে না। প্রকল্পে ব্যবহৃত জেমিনি মডেল চিকিৎসাবিদ্যায় প্রশিক্ষিত প্যারামিটারের মাধ্যমে প্রেসক্রিপশনের শব্দের অর্থ, ওষুধের ডোজের পারস্পরিক সম্পর্ক এবং ল্যাব রিপোর্টের রেফারেন্স রেঞ্জ বিশ্লেষণ করতে সক্ষম।
+    \item \textbf{এআই এজেন্ট আর্কিটেকচার (AI Agent Architecture):} একটি সাধারণ চ্যাটবট শুধু ইনপুটের প্রত্যুত্তরে টেক্সট আউটপুট দেয়। কিন্তু আফিয়াহ প্রকল্পে এআই এজেন্ট নির্দেশক (Planner \& Actor) হিসেবে কাজ করে। এটি ইউজারের প্রেসক্রিপশন ইমেজ থেকে প্যারামিটার এক্সট্র্যাক্ট করে মোবাইল ওএস-এর অ্যালার্ম সার্ভিস ও লোকাল ডেটাবেজের সাথে যোগাযোগ স্থাপন করে রিয়েল-ওয়ার্ল্ড অ্যাকশন সম্পাদন করে।
+    \item \textbf{কন্ট্রাক্ট-ফার্স্ট স্ট্রাকচার্ড পার্সিং (Contract-First Structured Output):} মডেলকে প্রম্পটের মাধ্যমে বাধ্য করা হয় সুনির্দিষ্ট JSON স্কিমা প্রদান করতে। ফলে এটি হ্যালুসিনেশন কমায় এবং অ্যাপ্লিকেশনের লজিক্যাল স্টেট মেশিনের সাথে নিরবচ্ছিন্ন ডাটা আদান-প্রদান নিশ্চিত করে।
+    \item \textbf{জিও-স্প্যাশিয়াল ক্যালকুলেশন (Geospatial Spatial Filtering):} ডিভাইসের জিপিএস থেকে প্রাপ্ত ল্যাটিটিউড-লঙ্গিটিউড এবং বিশেষজ্ঞ চিকিৎসকদের চেম্বারের ভৌগোলিক স্থানাঙ্কের দূরত্ব বিশ্লেষণ করে নিকটবর্তী উপযুক্ত চিকিৎসক বাছাই করা।
+    \item \textbf{বায়োমেট্রিক ও ওয়্যারেবল সিঙ্ক প্রোটোকল (Wearable Health Sync):} অপারেটিং সিস্টেমের প্রিভিলেজড হেলথ সার্ভিসেস সাব-সিস্টেম (Android Activity Recognition \& Apple Health) থেকে সময়-ভিত্তিক বায়োমেট্রিক টাইম-সিরিজ ডেটা গ্রহণ ও প্রক্রিয়াকরণ।
+\end{itemize}
+
+% ==============================================================================
+% অধ্যায় ৮: সিস্টেম আর্কিটেকচার (SYSTEM ARCHITECTURE)
+% ==============================================================================
+\chapter{সিস্টেম আর্কিটেকচার (System Architecture)}
+
+সিস্টেমের সামগ্রিক স্থাপত্য চিত্র \ref{fig:sys_arch}-এ উপস্থাপন করা হলো:
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.5cm and 1.2cm, auto]
+    % Nodes
+    \node (user) [startstop] {ব্যবহারকারী (User)};
+    \node (ui) [process, below=of user] {Flutter UI \& Glassmorphism};
+    \node (state) [process, below=of ui] {State Management (Provider)};
+    \node (ai) [process, right=2.5cm of state, fill=primaryTeal!15] {Gemini AI Agent Engine};
+    \node (vision) [io, above=of ai] {Multimodal Vision Ingestion};
+    \node (scheduler) [process, below left=1.8cm of state] {Notification Scheduler};
+    \node (storage) [startstop, below=of state] {Local Storage \& Firestore};
+    \node (emergency) [alertbox, below right=1.8cm of state, text width=2.8cm, text centered] {\textbf{Emergency SOS \& GPS Dispatch}};
+
+    % Arrows
+    \draw [arrow] (user) -- node[left] {ছবি / টেক্সট} (ui);
+    \draw [arrow] (ui) -- (state);
+    \draw [arrow] (state) -- (ai);
+    \draw [arrow] (vision) -- (ai);
+    \draw [arrow] (ui) -| (vision);
+    \draw [arrow] (ai) -- node[below, sloped] {JSON Schema} (state);
+    \draw [arrow] (state) -- (scheduler);
+    \draw [arrow] (state) -- (storage);
+    \draw [arrow] (state) -- (emergency);
+    \draw [arrow] (scheduler) |- (user);
+\end{tikzpicture}
+\caption{আফিয়াহ সিস্টেম আর্কিটেকচার ডায়াগ্রাম (Original Diagram Generated for this Report)}
+\label{fig:sys_arch}
+\end{figure}
+
+\section{আর্কিটেকচারের প্রধান উপাদানসমূহ}
+\begin{enumerate}
+    \item \textbf{কোর প্রেজেন্টেশন ফ্রেমওয়ার্ক:} ফ্লাটার ম্যাটেরিয়াল ডিজাইন ও গ্লাস মরফিজম কার্ডভিত্তিক রেস্পন্সিভ মোবাইল ইন্টারফেস।
+    \item \textbf{স্টেট ম্যানেজমেন্ট সাবসিস্টেম:} রিঅ্যাক্টিভ আর্কিটেকচার (\texttt{Provider}), যা ডেটা পরিবর্তনের সাথে সাথে ড্যাশবোর্ডের প্রতিটি উপাদানে তাৎক্ষণিক লাইভ আপডেট নিশ্চিত করে।
+    \item \textbf{কোর এআই সার্ভিস (\texttt{AIService}):} ব্যাকএন্ড মডেল ইনিশিয়ালাইজেশন, সিস্টেম প্রম্পট ইনজেকশন, বাংলা ভাষা রূপান্তর এবং মাল্টিপার্ট ভিশন প্রিকোয়েস্ট জেনারেটর।
+    \item \textbf{হার্ডওয়্যার এপিআই ইন্টারফেস:} ক্যামেরা, ডিভাইস লোকাল নোটিফিকেশন সার্ভিস, ওয়্যারেবল হেলথ এপিআই এবং জিপিএস জিওলোকেটর।
+    \item \textbf{লোকাল পারসিসটেন্স ও ইনভেন্টরি স্টেট মেশিন:} ডিভাইসের অভ্যন্তরীণ স্টোরেজে ওষুধের সক্রিয় তালিকা, স্টক ব্যালেন্স এবং ব্যবহারকারীর আচরণগত পয়েন্ট সংরক্ষণ।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ৯: কার্যপ্রণালী ও ওয়ার্কফ্লো (WORKFLOW)
+% ==============================================================================
+\chapter{কার্যপ্রণালী ও ওয়ার্কফ্লো (Working Principle)}
+
+সিস্টেমের বিভিন্ন মডিউলের কার্যপ্রণালী সুশৃঙ্খল অ্যালগরিদমিক পদক্ষেপে সম্পন্ন হয়:
+
+\section{প্রেসক্রিপশন ও স্বয়ংক্রিয় অ্যালার্ম ওয়ার্কফ্লো}
+\begin{enumerate}
+    \item \textbf{ইনপুট:} ব্যবহারকারী ক্যামেরা দিয়ে চিকিৎসকের ব্যবস্থাপত্রের ছবি তোলেন।
+    \item \textbf{প্রক্রিয়াকরণ:} \texttt{AIService.analyzeImage()} ফাংশনের মাধ্যমে ছবিটি জেমিনি ভিশন মডেলে প্রেরণ করা হয়।
+    \item \textbf{স্ট্রাকচার্ড এক্সট্র্যাকশন:} এআই প্রেসক্রিপশন থেকে ওষুধের নাম, সেবনের সময় (সকাল/দুপুর/রাত), খাবারের আগে/পরে এবং মোট দিনসংখ্যা সনাক্ত করে একটি JSON অ্যারে প্রদান করে।
+    \item \textbf{অ্যালার্ম প্রোগ্রামিং:} \texttt{PrescriptionState} জেসন ডেটা প্রসেস করে নির্দিষ্ট সময়ের (সকাল ৮:০০, দুপুর ২:০০, রাত ৯:০০) জন্য ডিভাইসের নিজস্ব অ্যালার্মে পুশ করে।
+    \item \textbf{ইনভেন্টরি নজরদারি:} প্রতিদিনের ওষুধ সেবনের পর স্টক ১ একক কমে। স্টক সংখ্যা ৩ দিনের কম হলে ব্যবহারকারীকে রিস্টক করার স্বয়ংক্রিয় নোটিফিকেশন প্রদান করা হয়।
+\end{enumerate}
+
+\section{লক্ষণ বিশ্লেষণ ও ইমার্জেন্সি ট্রিয়েজ ওয়ার্কফ্লো}
+\begin{enumerate}
+    \item \textbf{ইনপুট:} রোগীর বয়স, লিঙ্গ, লক্ষণ ও স্থায়িত্বকাল ফর্মের মাধ্যমে গৃহীত হয়।
+    \item \textbf{যুক্তি প্রয়োগ:} মডেল লক্ষণগুলোর চিকিৎসাবিজ্ঞানীয় তীব্রতা যাচাই করে (\texttt{severity: High/Medium/Low}, \texttt{emergency: true/false})।
+    \item \textbf{কন্ডিশনাল রাউটিং:} যদি \texttt{emergency: true} হয়, সিস্টেম তাৎক্ষণিকভাবে মূল হোমস্ক্রিন থেকে উচ্চ-ঝুঁকিপূর্ণ লাল সতর্কবার্তা স্ক্রিনে (\texttt{EmergencyAlertScreen}) স্থানান্তরিত হয় এবং জরুরি কল ও এসওএস পাঠানোর বিকল্প সক্রিয় করে।
+\end{enumerate}
+
+\section{স্বপ্রণোদিত মানসিক স্বাস্থ্য সহায়তা ওয়ার্কফ্লো}
+ব্যবহারকারী প্রতিদিনের মেজাজ (\textit{Happy, Calm, Sad, Anxious}) ইনপুট দেন। \texttt{MentalHealthState} ডেটাবেজ বিশ্লেষণ করে দেখে ব্যবহারকারী কি টানা ৩ দিন নেতিবাচক মেজাজে রয়েছেন কি না। টানা ৩ দিন বিষণ্ণতা শনাক্ত হলে এজেন্ট নিজে থেকে উদ্যোগী হয়ে একটি মানসিক প্রশান্তিদায়ক বাংলা পরামর্শ, ধৈর্য ও আশার বাণী এবং রিলাক্সেশন অনুশীলনের গাইড স্ক্রিনে প্রদর্শন করে।
+
+% ==============================================================================
+% অধ্যায় ১০: প্রযুক্তি স্ট্যাক (TECHNOLOGY STACK)
+% ==============================================================================
+\chapter{প্রযুক্তি স্ট্যাক (Technology Stack)}
+
+প্রকল্পটিতে ব্যবহৃত প্রতিটি প্রযুক্তির তালিকা ও ব্যবহারের উদ্দেশ্য সারণী \ref{tab:tech_stack}-এ উপস্থাপন করা হলো:
+
+\begin{table}[htbp]
+\centering
+\caption{আফিয়াহ প্রকল্পের প্রযুক্তিগত স্ট্যাক ও লাইব্রেরি বিবরণ}
+\label{tab:tech_stack}
+\begin{tabularx}{\textwidth}{L{4.2cm} L{3.5cm} X}
+\toprule
+\textbf{প্রযুক্তি / লাইব্রেরি} & \textbf{ক্যাটাগরি} & \textbf{ব্যবহারের উদ্দেশ্য} \\
+\midrule
+\textbf{Flutter (v3.x) \& Dart} & Frontend Framework & একক কোডবেস থেকে দ্রুত ও দৃষ্টিনন্দন ক্রস-প্ল্যাটফর্ম মোবাইল অ্যাপ নির্মাণ \\
+\textbf{Google Generative AI} & Multimodal AI Core & প্রেসক্রিপশন, ল্যাব রিপোর্ট ভিশন পার্সিং ও ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং \\
+\textbf{Provider (v6.1.2)} & State Management & রিয়্যাক্টিভ স্টেট ডিস্ট্রিবিউশন ও ডেটা ফ্লো নিয়ন্ত্রণ \\
+\textbf{Local Notifications} & System Automation & অফলাইনে সময়ভিত্তিক ঔষধ সেবনের অ্যালার্ম ও রিস্টক ওয়ার্নিং \\
+\textbf{Health (v11.0.0)} & Wearable / Sensors & Google Fit ও Apple HealthKit থেকে হার্টরেট, স্টেপস ও স্লিপ ডেটা সিঙ্ক \\
+\textbf{Geolocator (v13.0.2)} & Location Services & তাৎক্ষণিক জিপিএস কোঅর্ডিনেট নির্ণয় ও নিকটস্থ ডাক্তার ম্যাচিং \\
+\textbf{FL Chart (v0.70.2)} & Data Visualization & রক্তচাপ ও হাইড্রেশন হিস্ট্রি অ্যানালিটিক্স গ্রাফ রেন্ডারিং \\
+\textbf{Cloud Firestore} & Cloud Database & ব্যবহারকারীর প্রোফাইল ও ক্লাউড ব্যাকআপ সংরক্ষণ \\
+\textbf{Shared Preferences} & Local Persistence & ইন্টারনেটহীন অবস্থায় ওষুধ স্টক, শিডিউল ও স্ট্রিক পয়েন্ট ক্যাশিং \\
+\textbf{URL Launcher} & Communication & জরুরি এসওএস এসএমএস ড্রাফট ও টেলিমেডিসিন কল সুবিধা \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==============================================================================
+% অধ্যায় ১১: সিস্টেমের প্রধান মডিউল ও বাস্তবায়ন
+% ==============================================================================
+\chapter{সিস্টেমের বাস্তবায়ন (Implementation)}
+
+সিস্টেমটি নিম্নলিখিত স্বতন্ত্র কিন্তু পারস্পরিক যোগাযোগসম্পন্ন মডিউলের মাধ্যমে নির্মিত:
+\begin{enumerate}
+    \item \textbf{অথেন্টিকেশন ও ইউজার প্রোফাইল:} ইমেইল-পাসওয়ার্ড ও ক্লাউড ক্রেডেনশিয়াল হ্যান্ডলিং।
+    \item \textbf{এআই স্বাস্থ্য বুদ্ধিমত্তা ইঞ্জিন:} চ্যাট অ্যাসিস্ট্যান্ট, প্রেসক্রিপশন ভিশন, পিল আইডেন্টিফায়ার এবং ল্যাব রিপোর্ট অনুবাদক।
+    \item \textbf{দৈনন্দিন ট্র্যাকিং মডিউল:} ব্লাড প্রেসার ট্রেন্ড, ওয়াটার ইনটেক ও বিএমআই ক্যালকুলেশন।
+    \item \textbf{ওয়্যারেবল ও বায়োমেট্রিক ইঞ্জিন:} ওএস অ্যাক্টিভিটি পারমিশন ভিত্তিক হেলথ ডাটা সিঙ্ক।
+    \item \textbf{টেলিমেডিসিন ও জিওলোকেশন ট্রিয়েজ:} ডাক্তার ডিরেক্টরি ও ইমার্জেন্সি এসওএস রেসপন্স।
+    \item \textbf{গেমিফিকেশন ও লাইফস্টাইল:} হেলথ স্ট্রিক, রিওয়ার্ড এবং স্বয়ংক্রিয় ডায়েট প্ল্যানার।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ১২: স্ক্রিনশট ও বাস্তব সিস্টেম আউটপুট
+% ==============================================================================
+\chapter{স্ক্রিনশট ও বাস্তব সিস্টেম আউটপুট (Screenshots)}
+
+প্রকল্পের নিজস্ব \texttt{Screenshot/} ডিরেক্টরি থেকে মূল স্ক্রিনশটসমূহ প্রাসঙ্গিক বৈজ্ঞানিক ব্যাখ্যাসহ সংযুক্ত করা হলো:
+
+\section{কোর অ্যাপ ইন্টারফেস ও ইউজার অনবোর্ডিং}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{"Screenshot/splash.png"}
+\caption{স্প্ল্যাশ স্ক্রিন ও ব্র্যান্ড পরিচিতি (Source: Actual project screenshot)}
+\label{fig:splash}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/login.png"}
+    \caption*{(a) লগইন স্ক্রিন}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/regester.png"}
+    \caption*{(b) রেজিস্ট্রেশন}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/reset.png"}
+    \caption*{(c) পাসওয়ার্ড রিসেট}
+\end{minipage}
+\caption{নিরাপদ ইউজার অথেন্টিকেশন ও অ্যাকাউন্ট ম্যানেজমেন্ট ইন্টারফেস}
+\label{fig:auth}
+\end{figure}
+
+\section{প্রধান কন্ট্রোল ড্যাশবোর্ড}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/main1.png"}
+    \caption*{(a) ড্যাশবোর্ডের শীর্ষ অংশ (AI Services)}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/main2.png"}
+    \caption*{(b) ড্যাশবোর্ডের নিম্ন অংশ (Vitals \& Safety)}
+\end{minipage}
+\caption{আফিয়াহ মূল কন্ট্রোল ড্যাশবোর্ড ইন্টারফেস}
+\label{fig:dashboard}
+\end{figure}
+
+\section{এআই স্বাস্থ্য সেবা ও মাল্টিমোডাল ভিশন}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Aafi Ai.png"}
+\caption{"আফি" এআই ভার্চুয়াল স্বাস্থ্য সহযোগী চ্যাট ইন্টারফেস (Source: Actual project screenshot)}
+\label{fig:aafi_ai}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Prescriptrion Analysis.png"}
+\caption{প্রেসক্রিপশন ভিশন ও স্বয়ংক্রিয় ডেটা এক্সট্র্যাকশন কার্ড (Source: Actual project screenshot)}
+\label{fig:prescription}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Pill identifier loader.jpg"}
+    \caption*{(a) স্ক্যানিং অবস্থা}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Pill Identifier.png"}
+    \caption*{(b) শনাক্তকৃত ওষুধের বিবরণ}
+\end{minipage}
+\caption{পিল আইডেন্টিফায়ার বা ওষুধ শনাক্তকরণ ইন্টারফেস}
+\label{fig:pill_id}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Lab Report Insight.png"}
+\caption{ল্যাব রিপোর্ট বিশ্লেষণ ও সহজবোধ্য ব্যাখ্যা (Source: Actual project screenshot)}
+\label{fig:lab_report}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/symptoms.png"}
+    \caption*{(a) লক্ষণ ইনপুট ফর্ম}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/symptom output.png"}
+    \caption*{(b) এআই ট্রিয়েজ মূল্যায়ন}
+\end{minipage}
+\caption{লক্ষণ মূল্যায়ন ও ক্লিনিক্যাল ট্রিয়েজ ফলাফল}
+\label{fig:symptom}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Critical Alert.png"}
+\caption{ক্রিটিক্যাল ইমার্জেন্সি অ্যালার্ট ইন্টারফেস (Source: Actual project screenshot)}
+\label{fig:critical_alert}
+\end{figure}
+
+\section{ভাইটাল ট্র্যাকিং ও ওয়্যারেবল সেন্সর ইন্টিগ্রেশন}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Wearable Integration.png"}
+\caption{ওয়্যারেবল ডিভাইস ইন্টিগ্রেশন ও লাইভ ভাইটালস মনিটরিং (Source: Actual project screenshot)}
+\label{fig:wearable}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Blood Pressure Record.png"}
+    \caption*{(a) রক্তচাপ ট্রেন্ড অ্যানালিটিক্স}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Hydration History.png"}
+    \caption*{(b) দৈনিক হাইড্রেশন ইতিহাস}
+\end{minipage}
+\caption{দৈনন্দিন বায়োমেট্রিক ট্র্যাকিং ও ডেটা অ্যানালিটিক্স}
+\label{fig:tracking}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{"Screenshot/BMI result.png"}
+\caption{বিএমআই ক্যালকুলেটর ফলাফল ও শ্রেণিবিন্যাস (Source: Actual project screenshot)}
+\label{fig:bmi}
+\end{figure}
+
+\section{মানসিক স্বাস্থ্য, লাইফস্টাইল ও টেলিমেডিসিন}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Mood Input.png"}
+    \caption*{(a) মেজাজ ইনপুট}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Mood Journal.png"}
+    \caption*{(b) মেজাজ জার্নাল ইতিহাস}
+\end{minipage}
+\caption{মানসিক স্বাস্থ্য জার্নাল ও গতিপ্রকৃতি পর্যবেক্ষণ}
+\label{fig:mental_health}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/diet.png"}
+    \caption*{(a) এআই ডায়েট প্ল্যান}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Health advice.png"}
+    \caption*{(b) স্বাস্থ্য পরামর্শ ও টিপস}
+\end{minipage}
+\caption{ব্যক্তিগত খাদ্যতালিকা ও স্বাস্থ্যপরামর্শ নির্দেশিকা}
+\label{fig:lifestyle}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Medicine Reminder.png"}
+    \caption*{(a) মেডিসিন রিমাইন্ডার}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Telemedicine.png"}
+    \caption*{(b) ডাক্তার ম্যাচিং}
+\end{minipage}
+\hfill
+\begin{minipage}{0.31\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{"Screenshot/Telemedicine2.png"}
+    \caption*{(c) অ্যাপয়েন্টমেন্ট বুকিং}
+\end{minipage}
+\caption{ওষুধ অনুস্মারক ও টেলিমেডিসিন কনসালটেশন শিডিউলিং}
+\label{fig:telemed}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{"Screenshot/Rewards and Streaks.png"}
+\caption{গেমিফিকেশন ও স্বাস্থ্য স্ট্রিক অর্জন ব্যাজ (Source: Actual project screenshot)}
+\label{fig:gamification}
+\end{figure}
+
+% ==============================================================================
+% অধ্যায় ১৩: পরীক্ষণ ও ফলাফল মূল্যায়ন (EXPERIMENT & TESTING)
+% ==============================================================================
+\chapter{পরীক্ষণ ও ফলাফল মূল্যায়ন (Testing \& Results)}
+
+প্রকল্পের কার্যকারিতা ও সফটওয়্যার স্থিতিশীলতা মূল্যায়নে পরিচালিত ফাংশনাল ও সিস্টেম ইন্টিগ্রেশন টেস্ট ম্যাট্রিক্স সারণী \ref{tab:test_matrix}-এ উপস্থাপন করা হলো:
+
+\begin{table}[htbp]
+\centering
+\caption{আফিয়াহ সফটওয়্যার সিস্টেম টেস্ট ম্যাট্রিক্স ও পরীক্ষণ ফলাফল}
+\label{tab:test_matrix}
+\begin{tabularx}{\textwidth}{C{1.5cm} L{3.5cm} L{3.2cm} X C{1.8cm}}
+\toprule
+\textbf{টেস্ট আইডি} & \textbf{মডিউল} & \textbf{ইনপুট ডেটা} & \textbf{প্রত্যাশিত ও বাস্তব ফলাফল} & \textbf{ফলাফল} \\
+\midrule
+\textbf{TC-01} & প্রেসক্রিপশন ভিশন & ব্যবস্থাপত্রের ছবি & ওষুধের নাম, মাত্রা, সময়সূচি ও দিনসংখ্যা সফলভাবে এক্সট্র্যাক্ট হয়েছে & \textbf{Passed} \\
+\textbf{TC-02} & শিডিউলিং অ্যালার্ম & সময়সূচি: সকাল/রাত & সকাল ৮:০০ ও রাত ৯:০০ টায় লোকাল অ্যালার্ম সক্রিয় হয়েছে & \textbf{Passed} \\
+\textbf{TC-03} & স্টক ইনভেন্টরি & ডোজ নিশ্চিতকরণ ক্লিক & স্টক ১ হ্রাস পেয়েছে; ৩ দিনের কম হলে রিস্টক ওয়ার্নিং পুশ হয়েছে & \textbf{Passed} \\
+\textbf{TC-04} & ল্যাব রিপোর্ট & প্যাথলজি টেস্ট ইমেজ & অস্বাভাবিক মান সহজ বাংলায় ব্যাখ্যা ও ডাক্তারের পরামর্শ প্রদর্শন & \textbf{Passed} \\
+\textbf{TC-05} & জরুরি ট্রিয়েজ & "বুকে তীব্র ব্যথা" & \texttt{emergency: true} শনাক্ত করে রেড অ্যালার্ট স্ক্রিন লোড করেছে & \textbf{Passed} \\
+\textbf{TC-06} & ভৌগোলিক এসওএস & বিপদ সংকেত ট্রিগার & লাইভ জিপিএস কোঅর্ডিনেটসহ এসএমএস গেটওয়ে প্রস্তুত করেছে & \textbf{Passed} \\
+\textbf{TC-07} & ওয়্যারেবল সিঙ্ক & হেলথ পারমিশন অনুমোদন & গুগল ফিট থেকে পদক্ষেপ ও হার্টরেট লাইভ রিড করেছে & \textbf{Passed} \\
+\textbf{TC-08} & মানসিক ইন্টারভেনশন & টানা ৩ দিন বিষণ্ণ মেজাজ & স্বপ্রণোদিত হয়ে এআই সান্ত্বনা ও রিলাক্সেশন গাইড উপস্থাপন করেছে & \textbf{Passed} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{বাস্তব পর্যবেক্ষিত ফলাফল (Observed Results)}
+\begin{enumerate}
+    \item \textbf{মাল্টিমোডাল ভিশনের কার্যকারিতা:} প্রমিত ক্যামেরায় ধারণকৃত প্রেসক্রিপশন ও ওষুধের প্যাকেটের ছবি থেকে এটি কার্যকরভাবে ব্র্যান্ডের নাম ও সেবনের নিয়মাবলী পৃথক করতে পেরেছে।
+    \item \textbf{মেডিকেল পরিভাষার সফল রূপান্তর:} ল্যাবরেটরি রিপোর্টের প্রযুক্তিগত শব্দমালা (যেমন: \textit{Neutrophils, Platelets, Creatinine}) সাধারণ ব্যবহারকারীর বোধগম্য বাংলায় রূপান্তরিত হয়েছে।
+    \item \textbf{ক্লোজড-লুপ মেডিসিন ট্র্যাকিং:} প্রেসক্রিপশন আপলোডের পর ব্যবহারকারীকে পুনরায় ম্যানুয়ালি অ্যালার্ম সেট করতে হয়নি; পুরো প্রক্রিয়াটি সম্পূর্ণ স্বয়ংক্রিয়ভাবে সম্পন্ন হয়েছে।
+    \item \textbf{জরুরি অবস্থায় দ্রুততা:} সংকটাপন্ন লক্ষণ এআই মডেলে পাঠানো মাত্রই সিস্টেমটি দ্বিধাহীনভাবে কোনো সাধারণ পরামর্শে কালক্ষেপণ না করে ব্যবহারকারীকে সরাসরি রেড অ্যালার্ট ও হাসপাতাল সেবার দিকে পরিচালিত করেছে।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ১৪: উদ্ভাবন, সীমাবদ্ধতা ও ভবিষ্যৎ পরিকল্পনা
+% ==============================================================================
+\chapter{উদ্ভাবনী দিক, সীমাবদ্ধতা ও ভবিষ্যৎ পরিকল্পনা}
+
+\section{উদ্ভাবনী দিক ও নতুনত্ব (Innovation / Novelty)}
+\begin{itemize}
+    \item \textbf{প্রকৃত এজেন্টিক অটোমেশন (Agentic Lifecycle):} প্যাসিভ চ্যাটবটের বদলে এআই এখানে সক্রিয় চালক হিসেবে কাজ করে প্রেসক্রিপশন থেকে সরাসরি ওএস অ্যালার্ম সৃষ্টি এবং স্টক শেষ হওয়ার আগেই রিস্টক নোটিফিকেশন দেয়।
+    \item \textbf{সম্পূর্ণ বাংলা লোকালাইজড মাল্টিমোডাল ইঞ্জিন:} প্রেসক্রিপশন ও প্যাথলজি টেস্টের গূঢ়ার্থ সাধারণ মানুষের বোধগম্য আঞ্চলিক প্রেক্ষাপটে রূপান্তর।
+    \item \textbf{আচরণগত স্বপ্রণোদিত মানসিক সহায়তা:} ব্যবহারকারীর দীর্ঘমেয়াদী মেজাজ রেকর্ড পর্যবেক্ষণ করে টানা ৩ দিন বিষণ্ণতা থাকলে এজেন্ট নিজে থেকে মানসিক শান্তি ও রিলাক্সেশন গাইড নিয়ে এগিয়ে আসে।
+    \item \textbf{লক্ষণ ও ভৌগোলিক দূরত্বের ইন্টেলিজেন্ট ফিউশন:} উপসর্গ ও রোগীর বর্তমান জিপিএস অবস্থানের ভিত্তিতে তাৎক্ষণিক নিকটবর্তী বিশেষজ্ঞ ডাক্তারের সন্ধান প্রদান।
+    \item \textbf{অল-ইন-ওয়ান লাইটওয়েট ফ্রেমওয়ার্ক:} একাধিক পৃথক অ্যাপ্লিকেশনের কাজকে একটি মাত্র হালকা কিন্তু শক্তিশালী মোবাইল অ্যাপ্লিকেশনে একত্রিত করা হয়েছে।
+\end{itemize}
+
+\section{সীমাবদ্ধতা (Limitations)}
+\begin{enumerate}
+    \item \textbf{ইন্টারনেট সংযোগ নির্ভরতা:} জেমিনি ক্লাউড এআই এপিআই ব্যবহারের কারণে জটিল ভিশন অ্যানালাইসিস এবং চ্যাটের জন্য সক্রিয় ইন্টারনেট সংযোগ প্রয়োজন।
+    \item \textbf{হাতের লেখার অস্পষ্টতা:} অত্যন্ত দুর্বোধ্য বা ছেঁড়া-ফাটা প্রেসক্রিপশনে হস্তাক্ষর শনাক্তকরণে মডেলের ফলাফলে বিচ্যুতি ঘটতে পারে।
+    \item \textbf{প্রোটোটাইপ স্টেজ:} সিস্টেমটি বর্তমানে পূর্ণাঙ্গ ল্যাবরেটরি ও সিমুলেটেড প্রোটোটাইপ হিসেবে পরীক্ষিত; ক্লিনিক্যাল সার্টিফিকেশন এখনো গৃহীত হয়নি।
+\end{enumerate}
+
+\section{ভবিষ্যৎ কর্মপরিকল্পনা (Future Work)}
+\begin{enumerate}
+    \item \textbf{অন-ডিভাইস এজ এআই মডেল (Edge AI Integration):} মোবাইল ডিভাইসে সরাসরি ছোট আকারের মডেল (Gemini Nano) যুক্ত করে ইন্টারনেট সংযোগ ছাড়াই বেসিক প্রেসক্রিপশন ও ওষুধ স্ক্যানিং চালু করা।
+    \item \textbf{স্থানীয় উপভাষা ও সম্পূর্ণ ভয়েস কমান্ড:} নিরক্ষর ও প্রবীণ ব্যক্তিদের জন্য সম্পূর্ণ ভয়েস-ভিত্তিক দ্বি-মুখী বাংলা কথোপকথন ব্যবস্থা তৈরি।
+    \item \textbf{হাসপাতাল ইএইচআর (EHR) ইন্টিগ্রেশন:} সরকারি ও বেসরকারি হাসপাতালের সেন্ট্রাল ইলেকট্রনিক হেলথ রেকর্ডের সাথে তথ্য আদান-প্রদান ব্যবস্থা গড়ে তোলা।
+\end{enumerate}
+
+% ==============================================================================
+% অধ্যায় ১৫: নৈতিকতা, ডেটা গোপনীয়তা ও উপসংহার
+% ==============================================================================
+\chapter{নৈতিকতা, ডেটা গোপনীয়তা ও উপসংহার}
+
+\section{নৈতিকতা, ডেটা গোপনীয়তা ও নিরাপত্তা বিবেচনা}
+\begin{itemize}
+    \item \textbf{স্পষ্ট ডিসক্লেইমার ও চিকিৎসকের বিকল্প নয়:} অ্যাপ্লিকেশনের প্রতিটি ধাপে স্পষ্টভাবে জানিয়ে দেওয়া হয়েছে যে, এআই কখনো লাইসেন্সধারী চিকিৎসকের বিকল্প নয়। এটি শুধুমাত্র একটি তথ্যভিত্তিক সহযোগী।
+    \item \textbf{রোগীর গোপনীয়তা ও ডেটা সুরক্ষা (Data Privacy):} রোগীর কোনো ব্যক্তিগত সংবেদনশীল ডেটা তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করা হয় না। স্বাস্থ্য ডেটা লোকাল ডিভাইসে সুরক্ষিত অবস্থায় সংরক্ষিত থাকে এবং ডিভাইসের হার্ডওয়্যার পারমিশন কেবলমাত্র সুস্পষ্ট সম্মতির ভিত্তিতে নেওয়া হয়।
+    \item \textbf{ভুল তথ্যের ঝুঁকি নিরোধ (Hallucination Control):} জেমিনি মডেলকে প্রম্পট ইঞ্জিনিয়ারিংয়ের মাধ্যমে নির্দেশ দেওয়া হয়েছে যে কোনো তথ্যে নিশ্চিত না হলে অনুমাননির্ভর কোনো প্রেসক্রিপশন ড্রাগ সাজেস্ট না করতে।
+\end{itemize}
+
+\section{উপসংহার (Conclusion)}
+"আফিয়াহ" প্রকল্পটি প্রমাণ করেছে যে, লার্জ ল্যাঙ্গুয়েজ মডেলের আধুনিক যুক্তি ক্ষমতা এবং মোবাইল সিস্টেমের হার্ডওয়্যার সক্ষমতাকে একত্রিত করে একটি স্বয়ংক্রিয়, মানবিক ও কার্যকরী স্বাস্থ্য পরিচর্যা প্ল্যাটফর্ম গড়ে তোলা সম্ভব। এটি কেবল রোগীকে প্রেসক্রিপশনের সঠিক সেবনবিধি বুঝতে সহায়তা করে না, বরং স্বয়ংক্রিয় অ্যালার্ম, ইনভেন্টরি ট্র্যাকিং, বায়োমেট্রিক নজরদারি ও সংকটকালীন সুরক্ষার মাধ্যমে একটি স্বয়ংসম্পূর্ণ জীবন রক্ষাকারী স্বাস্থ্য ইকোসিস্টেমের ভূমিকা পালন করে। বাংলাদেশের আর্থ-সামাজিক বাস্তবতায় স্বাস্থ্যসেবা বৈষম্য দূর করতে এবং ভবিষ্যৎ প্রজন্মের ডিজিটাল স্বাস্থ্য সুরক্ষায় "আফিয়াহ" একটি সময়োপযোগী ও সম্ভাবনাময় বৈজ্ঞানিক উদ্ভাবন।
+
+% ==============================================================================
+% তথ্যসূত্র (REFERENCES)
+% ==============================================================================
+\begin{thebibliography}{99}
+\bibitem{gemini} Google AI. (2024). \textit{Gemini API Documentation \& Generative AI SDK for Dart}. Google Developers. \url{https://ai.google.dev}
+\bibitem{flutter} Flutter Team. (2024). \textit{Flutter: Build apps for any screen}. Google Open Source. \url{https://flutter.dev}
+\bibitem{who} World Health Organization (WHO). (2021). \textit{Ethics and governance of artificial intelligence for health: WHO guidance}. World Health Organization.
+\bibitem{nature_med} Singhal, K., et al. (2023). \textit{Large Language Models Encode Clinical Knowledge}. Nature, 620(7972), 172--180.
+\bibitem{rajpurkar} Rajpurkar, P., et al. (2022). \textit{AI in health and medicine}. Nature Medicine, 28(1), 31--38.
+\bibitem{moor} Moor, M., et al. (2023). \textit{Foundation models for generalist medical artificial intelligence}. Nature, 616(7956), 259--265.
+\end{thebibliography}
+
+% ==============================================================================
+% পরিশিষ্ট (APPENDIX)
+% ==============================================================================
+\appendix
+\chapter{সিস্টেম কনফিগারেশন ও ডিফল্ট মান (System Parameters)}
+\begin{itemize}
+    \item \textbf{দৈনিক হাইড্রেশন টার্গেট:} ২০০০ মিলি (2000 ml)
+    \item \textbf{দৈনিক স্টেপ টার্গেট:} ১০,০০০ পদক্ষেপ (10,000 steps)
+    \item \textbf{ওষুধ সেবনের ডিফল্ট শিডিউল ম্যাপিং:}
+    \begin{itemize}
+        \item সকাল (Morning): ০৮:০০ ঘটিকা
+        \item দুপুর (Noon / Afternoon): ১৪:০০ ঘটিকা
+        \item রাত (Night / Evening): ২১:০০ ঘটিকা
+    \end{itemize}
+    \item \textbf{ওষুধ স্টক সতর্কতা থ্রেশহোল্ড:} ৩ দিনের সমপরিমাণ ডোজ অবশিষ্ট থাকলে স্বয়ংক্রিয় লো-স্টক ওয়ার্নিং সক্রিয় হয়।
+    \item \textbf{মানসিক স্বাস্থ্য ইন্টারভেনশন শর্ত:} পরপর ৩টি লগনে নেতিবাচক আবেগ (Sad / Anxious / Depressed) নথিভুক্ত হলে স্বপ্রণোদিত সান্ত্বনামূলক পরামর্শ চালু হয়।
+\end{itemize}
+
+% ==============================================================================
+% বিজ্ঞান মেলা নিবন্ধন ফর্মের তথ্য (SCIENCE FAIR FORM INFORMATION)
+% ==============================================================================
+\chapter{বিজ্ঞান মেলা নিবন্ধন ফর্মের তথ্য}
+\textbf{ইভেন্ট:} "ভবিষ্যৎ বিজ্ঞানীর খোঁজে ২০২৬"
+
+\begin{highlightbox}[title=[FIELD 1] PROJECT TITLE (প্রকল্পের নাম)]
+আফিয়াহ (Aafiyah): প্রান্তিক ও সামগ্রিক জনস্বাস্থ্যের সুরক্ষায় মাল্টিমোডাল এআই-এজেন্ট ভিত্তিক স্বয়ংক্রিয় স্বাস্থ্যসেবা ও ব্যক্তিগত পরিচর্যা প্ল্যাটফর্ম\\
+\textit{(Aafiyah: A Multimodal AI-Agent Driven Personal Health Ecosystem and Intelligent Triage Platform)}
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 2] SCIENTIFIC FIELD (বিজ্ঞান শাখা / ক্ষেত্র)]
+কৃত্রিম বুদ্ধিমত্তা, স্বাস্থ্য তথ্যপ্রযুক্তি ও সফটওয়্যার ইঞ্জিনিয়ারিং (Artificial Intelligence, Health Informatics \& Software Engineering)
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 3] PROJECT ABSTRACT (প্রকল্পের সারসংক্ষেপ)]
+প্রেসক্রিপশনের জটিলতা, ওষুধের অনিয়মিত সেবন এবং জরুরি প্রাথমিক পরামর্শের অভাব দূর করতে ফ্লাটার, গুগল জেমিনি মাল্টিমোডাল এআই এবং মোবাইল হার্ডওয়্যার সেন্সরের সমন্বয়ে "আফিয়াহ" প্ল্যাটফর্মটি উদ্ভাবন করা হয়েছে। সাধারণ চ্যাটবটের মতো কেবল প্রশ্নোত্তরে সীমাবদ্ধ না থেকে এটি একটি পূর্ণাঙ্গ এআই এজেন্ট হিসেবে কাজ করে। সিস্টেমটি প্রেসক্রিপশন ও ওষুধের ছবি বিশ্লেষণ করে স্বয়ংক্রিয়ভাবে সময়সূচি নির্ধারণ করে অফলাইন অ্যালার্ম নোটিফিকেশন শিডিউল করে, ওষুধ সেবন শেষে স্বয়ংক্রিয় ইনভেন্টরি ট্র্যাকিং পরিচালনা করে এবং ৩ দিনের স্টক বাকি থাকলে রিস্টক সতর্কবার্তা প্রদান করে। এছাড়াও প্ল্যাটফর্মটিতে রয়েছে জটিল ল্যাব রিপোর্টের সহজ বাংলা অনুবাদ, রোগের লক্ষণভিত্তিক ট্রিয়েজ ও জরুরি রেড অ্যালার্ট, গুগল ফিট/হেলথকিট থেকে সংগৃহীত লাইভ হার্টরেট ও স্টেপস ট্র্যাকিং, ৩ দিন টানা বিষণ্ণতায় স্বপ্রণোদিত মানসিক স্বাস্থ্য সহায়তা এবং জিপিএস কোঅর্ডিনেটসহ এক ক্লিকে এসওএস (SOS) বার্তা প্রেরণ ব্যবস্থা। এটি সাধারণ মানুষের স্বাস্থ্য সচেতনতা বৃদ্ধিতে ও জীবনযাত্রার মানোন্নয়নে একটি সাশ্রয়ী ও কার্যকর বিজ্ঞানমনস্ক সমাধান।
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 4] OBJECTIVES (প্রকল্পের উদ্দেশ্যসমূহ)]
+১. মাল্টিমোডাল ভিশন এআই এর মাধ্যমে প্রেসক্রিপশন, ওষুধের স্ট্রিপ ও ল্যাব রিপোর্টের ছবি বিশ্লেষণ করে চিকিৎসাবিজ্ঞানীয় তথ্য সফলভাবে নিষ্কাশন করা।\\
+২. রোগীর কোনো রকম কায়িক প্রচেষ্টা ছাড়াই প্রেসক্রিপশন থেকে স্বয়ংক্রিয় নোটিফিকেশন শিডিউলিং ও ইনভেন্টরি ট্র্যাকিং নিশ্চিত করা।\\
+৩. সাধারণ লক্ষণ বনাম আশঙ্কাজনক লক্ষণ বিশ্লেষণ করে তাৎক্ষণিক ইমার্জেন্সি রেড অ্যালার্ট জারি ও জিপিএস লিংকসহ জরুরি এসওএস মেসেজিং সক্রিয় করা।\\
+৪. ডিভাইস সেন্সর ও ওয়্যারেবল হেলথ ডেটা (হৃদস্পন্দন, পদক্ষেপ, ঘুম, রক্তচাপ) সমন্বয় করে লাইভ মনিটরিং নিশ্চিত করা।\\
+৫. মাতৃভাষা বাংলায় সমস্ত জটিল স্বাস্থ্য নির্দেশিকা ও ডায়েট প্ল্যান উপস্থাপন করা এবং প্র্যাক্টিভ মানসিক স্বাস্থ্য ইন্টারভেনশন নিশ্চিত করা।
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 5] INNOVATION / NOVELTY (উদ্ভাবন ও নতুনত্ব)]
+১. \textbf{প্রকৃত এজেন্টিক অটোমেশন (Agentic Lifecycle):} প্যাসিভ চ্যাটবটের বদলে এআই এখানে সক্রিয় চালক হিসেবে কাজ করে প্রেসক্রিপশন থেকে সরাসরি ওএস অ্যালার্ম সৃষ্টি এবং স্টক শেষ হওয়ার আগেই রিস্টক নোটিফিকেশন দেয়।\\
+২. \textbf{সম্পূর্ণ বাংলা লোকালাইজড মাল্টিমোডাল ইঞ্জিন:} প্রেসক্রিপশন ও প্যাথলজি টেস্টের গূঢ়ার্থ সাধারণ মানুষের বোধগম্য আঞ্চলিক প্রেক্ষাপটে রূপান্তর।\\
+৩. \textbf{আচরণগত স্বপ্রণোদিত মানসিক সহায়তা:} ব্যবহারকারীর দীর্ঘমেয়াদী মেজাজ রেকর্ড পর্যবেক্ষণ করে টানা ৩ দিন বিষণ্ণতা থাকলে এজেন্ট নিজে থেকে মানসিক শান্তি ও রিলাক্সেশন গাইড নিয়ে এগিয়ে আসে।\\
+৪. \textbf{লক্ষণ ও ভৌগোলিক দূরত্বের ইন্টেলিজেন্ট ফিউশন:} উপসর্গ ও রোগীর বর্তমান জিপিএস অবস্থানের ভিত্তিতে তাৎক্ষণিক নিকটবর্তী বিশেষজ্ঞ ডাক্তারের সন্ধান প্রদান।\\
+৫. \textbf{অল-ইন-ওয়ান লাইটওয়েট ফ্রেমওয়ার্ক:} একাধিক পৃথক অ্যাপ্লিকেশনের কাজকে একটি মাত্র হালকা কিন্তু শক্তিশালী মোবাইল অ্যাপ্লিকেশনে একত্রিত করা হয়েছে।
+\end{highlightbox}
+
+\begin{highlightbox}[title=[FIELD 6] EXPECTED IMPACT (সম্ভাব্য প্রভাব)]
+\begin{itemize}
+    \item \textbf{প্রত্যক্ষ প্রদর্শিত প্রভাব:} রোগীদের নিয়মিত ওষুধ সেবনের নিশ্চয়তা প্রদান, প্রেসক্রিপশন ও ল্যাব টেস্টের পরিভাষা সহজভাবে বোঝা এবং জরুরি মুহূর্তে তাৎক্ষণিক স্বজনদের সাথে জিপিএস লোকেশন শেয়ারিং।
+    \item \textbf{সম্ভাব্য জাতীয় ও বৈজ্ঞানিক প্রভাব:} দীর্ঘমেয়াদী অসংক্রামক রোগ (ডায়াবেটিস, উচ্চ রক্তচাপ) নিয়ন্ত্রণে শৃঙ্খলা তৈরি, ভুল বা অসম্পূর্ণ অ্যান্টিবায়োটিক সেবন রোধের মাধ্যমে জাতীয় স্বাস্থ্যহানি হ্রাস, হাসপাতালে প্রাথমিক ট্রিয়েজের সুবিধা প্রদান এবং সাধারণ নাগরিকদের মাঝে মৌলিক স্বাস্থ্য সাক্ষরতা বৃদ্ধি করে একটি সুস্থ ও সক্ষম সমাজ বিনির্মাণ।
+\end{itemize}
+\end{highlightbox}
+
+\end{document}

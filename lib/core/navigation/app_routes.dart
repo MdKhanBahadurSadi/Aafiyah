@@ -26,4 +26,5 @@ class AppRoutes {
   static const String wearable = '/wearable';
   static const String gamification = '/gamification';
   static const String telemedicine = '/telemedicine';
+  static const String medicinePharmacy = '/medicine-pharmacy';
 }

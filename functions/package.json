@@ -1,0 +1,17 @@
+{
+  "name": "aafiyah-functions",
+  "private": true,
+  "description": "Trusted commerce transactions and notification delivery for Aafiyah.",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node --check index.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.5.0",
+    "firebase-functions": "^7.4.0"
+  }
+}

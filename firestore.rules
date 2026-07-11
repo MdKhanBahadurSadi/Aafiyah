@@ -1,0 +1,220 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function own(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() { return signedIn() && request.auth.token.admin == true; }
+    function membershipExists() {
+      return signedIn() && exists(/databases/$(database)/documents/pharmacyUsers/$(request.auth.uid));
+    }
+    function membership() {
+      return get(/databases/$(database)/documents/pharmacyUsers/$(request.auth.uid)).data;
+    }
+    function verifiedPartner() {
+      return membershipExists()
+        && membership().status == 'verified'
+        && exists(/databases/$(database)/documents/pharmacies/$(membership().pharmacyId))
+        && get(/databases/$(database)/documents/pharmacies/$(membership().pharmacyId)).data.verificationStatus == 'verified';
+    }
+    function partnerFor(pharmacyId) {
+      return verifiedPartner() && membership().pharmacyId == pharmacyId;
+    }
+    function requestRecipient(requestId, pharmacyId) {
+      return exists(/databases/$(database)/documents/pharmacyRequests/$(requestId))
+        && pharmacyId in get(/databases/$(database)/documents/pharmacyRequests/$(requestId)).data.pharmacyIds;
+    }
+    function activeRequest(requestId) {
+      return exists(/databases/$(database)/documents/pharmacyRequests/$(requestId))
+        && get(/databases/$(database)/documents/pharmacyRequests/$(requestId)).data.status in ['pending', 'under_review', 'quoted'];
+    }
+    function acceptedQuoteAndOrder(quoteId) {
+      let quotePath = /databases/$(database)/documents/pharmacyQuotes/$(quoteId);
+      let orderPath = /databases/$(database)/documents/medicineOrders/$(quoteId);
+      return existsAfter(quotePath) && getAfter(quotePath).data.status == 'accepted'
+        && existsAfter(orderPath) && getAfter(orderPath).data.quoteId == quoteId
+        && getAfter(orderPath).data.status == 'confirmed';
+    }
+
+    match /users/{uid} {
+      allow read, create, update: if own(uid);
+      allow delete: if false;
+    }
+
+    match /pharmacyUsers/{uid} {
+      allow get: if own(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if own(uid)
+        && request.resource.data.uid == uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.role == 'owner'
+        && request.resource.data.keys().hasOnly(['uid', 'pharmacyId', 'status', 'role', 'createdAt'])
+        && existsAfter(/databases/$(database)/documents/pharmacies/$(request.resource.data.pharmacyId))
+        && getAfter(/databases/$(database)/documents/pharmacies/$(request.resource.data.pharmacyId)).data.ownerUid == uid;
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /pharmacies/{pharmacyId} {
+      allow get: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid)
+        || (signedIn() && resource.data.verificationStatus == 'verified');
+      allow list: if isAdmin() || (signedIn() && resource.data.verificationStatus == 'verified');
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.verificationStatus == 'pending'
+        && request.resource.data.timezone == 'Asia/Dhaka';
+      allow update: if isAdmin() || (signedIn()
+        && resource.data.ownerUid == request.auth.uid
+        && resource.data.verificationStatus == 'verified'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deliveryAvailable', 'codAvailable', 'temporaryClosed', 'weeklyHours', 'holidays', 'specialHours', 'logoUrl', 'updatedAt'])
+        && request.resource.data.verificationStatus == resource.data.verificationStatus
+        && request.resource.data.ownerUid == resource.data.ownerUid);
+      allow delete: if isAdmin();
+
+      match /private/{documentId} {
+        allow read: if isAdmin() || (signedIn() && get(/databases/$(database)/documents/pharmacies/$(pharmacyId)).data.ownerUid == request.auth.uid);
+        allow create: if isAdmin() || (signedIn()
+          && documentId == 'verification'
+          && getAfter(/databases/$(database)/documents/pharmacies/$(pharmacyId)).data.ownerUid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['licenseNumber', 'licenseFileName', 'licenseStoragePath', 'submittedAt']));
+        allow update, delete: if isAdmin();
+      }
+
+      match /inventory/{itemId} {
+        allow read: if signedIn() && resource.data.active == true;
+        allow create, update: if partnerFor(pharmacyId)
+          && request.resource.data.medicineName is string
+          && request.resource.data.medicineName.size() > 0
+          && request.resource.data.quantity is int && request.resource.data.quantity >= 0
+          && request.resource.data.unitPrice is number && request.resource.data.unitPrice >= 0;
+      allow delete: if partnerFor(pharmacyId) || isAdmin();
+      }
+    }
+
+    match /pharmacyRequests/{requestId} {
+      allow create: if signedIn()
+        && request.resource.data.patientUid == request.auth.uid
+        && request.resource.data.type in ['availability', 'prescription']
+        && request.resource.data.status == 'pending'
+        && request.resource.data.cancelled == false
+        && request.resource.data.pharmacyIds is list
+        && request.resource.data.pharmacyIds.size() > 0
+        && request.resource.data.pharmacyIds.size() <= 4
+        && request.resource.data.expiresAt is timestamp;
+      allow get, list: if isAdmin() || (signedIn() && resource.data.patientUid == request.auth.uid)
+        || (verifiedPartner() && membership().pharmacyId in resource.data.pharmacyIds);
+      allow update: if (signedIn() && resource.data.patientUid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'cancelled', 'updatedAt'])
+          && request.resource.data.status == 'cancelled' && request.resource.data.cancelled == true
+          && resource.data.status in ['pending', 'under_review', 'quoted'])
+        || (verifiedPartner() && membership().pharmacyId in resource.data.pharmacyIds
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+          && request.resource.data.status == 'quoted'
+          && resource.data.status in ['pending', 'under_review', 'quoted']
+          && existsAfter(/databases/$(database)/documents/pharmacyQuotes/$(requestId + '_' + membership().pharmacyId))
+          && getAfter(/databases/$(database)/documents/pharmacyQuotes/$(requestId + '_' + membership().pharmacyId)).data.status == 'submitted');
+      allow delete: if false;
+    }
+
+    match /prescriptions/{prescriptionId} {
+      allow create: if signedIn()
+        && request.resource.data.patientUid == request.auth.uid
+        && request.resource.data.status == 'original_received'
+        && request.resource.data.ocrStatus == 'not_processed'
+        && request.resource.data.fileSize is int && request.resource.data.fileSize > 0
+        && request.resource.data.fileSize <= 10485760
+        && request.resource.data.mimeType in ['image/jpeg', 'image/png', 'application/pdf'];
+      allow get, list: if isAdmin() || (signedIn() && resource.data.patientUid == request.auth.uid)
+        || (verifiedPartner() && exists(/databases/$(database)/documents/prescriptionShares/$(resource.data.patientUid + '_' + prescriptionId + '_' + membership().pharmacyId))
+          && get(/databases/$(database)/documents/prescriptionShares/$(resource.data.patientUid + '_' + prescriptionId + '_' + membership().pharmacyId)).data.allowed == true
+          && request.time < get(/databases/$(database)/documents/prescriptionShares/$(resource.data.patientUid + '_' + prescriptionId + '_' + membership().pharmacyId)).data.accessUntil);
+      allow update, delete: if false;
+    }
+
+    match /prescriptionShares/{shareId} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.patientUid == request.auth.uid)
+        || (verifiedPartner() && membership().pharmacyId == resource.data.pharmacyId && resource.data.allowed == true
+          && request.time < resource.data.accessUntil);
+      allow create: if signedIn()
+        && request.resource.data.patientUid == request.auth.uid
+        && request.resource.data.allowed == true
+        && request.resource.data.pharmacyId in getAfter(/databases/$(database)/documents/pharmacyRequests/$(request.resource.data.requestId)).data.pharmacyIds
+        && getAfter(/databases/$(database)/documents/pharmacyRequests/$(request.resource.data.requestId)).data.patientUid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/pharmacyRequests/$(request.resource.data.requestId)).data.prescriptionId == request.resource.data.prescriptionId;
+      allow update: if signedIn() && resource.data.patientUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['allowed'])
+        && request.resource.data.allowed == false;
+      allow delete: if false;
+    }
+
+    match /pharmacyQuotes/{quoteId} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.patientUid == request.auth.uid)
+        || partnerFor(resource.data.pharmacyId);
+      allow create: if verifiedPartner()
+        && request.resource.data.pharmacyId == membership().pharmacyId
+        && quoteId == request.resource.data.requestId + '_' + request.resource.data.pharmacyId
+        && requestRecipient(request.resource.data.requestId, request.resource.data.pharmacyId)
+        && activeRequest(request.resource.data.requestId)
+        && get(/databases/$(database)/documents/pharmacyRequests/$(request.resource.data.requestId)).data.patientUid == request.resource.data.patientUid
+        && request.resource.data.status == 'submitted'
+        && request.resource.data.subtotal is number && request.resource.data.subtotal >= 0
+        && request.resource.data.deliveryFee is number && request.resource.data.deliveryFee >= 0
+        && request.resource.data.items is list
+        && ((request.resource.data.prescriptionVerified != true && request.resource.data.containsAlternative != true)
+          || (membership().role == 'pharmacist'
+            && request.resource.data.reviewedByUid == request.auth.uid
+            && request.resource.data.alternativeReviewed == (request.resource.data.containsAlternative == true)))
+        && request.resource.data.expiresAt is timestamp;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /medicineOrders/{orderId} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.patientUid == request.auth.uid)
+        || partnerFor(resource.data.pharmacyId);
+      allow create, update: if false;
+      allow delete: if false;
+    }
+
+    match /medicationPlans/{planId} {
+      allow get, list: if signedIn() && resource.data.patientUid == request.auth.uid;
+      allow create: if signedIn()
+        && request.resource.data.patientUid == request.auth.uid
+        && request.resource.data.name is string && request.resource.data.name.size() > 0
+        && request.resource.data.remainingQuantity is number && request.resource.data.remainingQuantity > 0
+        && request.resource.data.unitsPerDay is number && request.resource.data.unitsPerDay > 0
+        && request.resource.data.prescriptionExpiryVerified == false;
+      allow update: if signedIn() && resource.data.patientUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['active', 'remindAt', 'reminderSentAt', 'snoozedAt', 'updatedAt'])
+        && request.resource.data.patientUid == resource.data.patientUid;
+      allow delete: if false;
+
+      match /reminderHistory/{eventId} {
+        allow get, list: if signedIn()
+          && get(/databases/$(database)/documents/medicationPlans/$(planId)).data.patientUid == request.auth.uid;
+        allow create: if signedIn()
+          && get(/databases/$(database)/documents/medicationPlans/$(planId)).data.patientUid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['type', 'createdAt'])
+          && request.resource.data.type == 'snoozed';
+        allow update, delete: if false;
+      }
+    }
+
+    match /notifications/{notificationId} {
+      allow get, list: if signedIn() && resource.data.userUid == request.auth.uid;
+      allow create, update, delete: if false;
+    }
+
+    match /userDevices/{uid}/tokens/{tokenId} {
+      allow get, list: if own(uid);
+      allow create, update: if own(uid)
+        && request.resource.data.token is string
+        && request.resource.data.token.size() > 0
+        && request.resource.data.keys().hasOnly(['token', 'platform', 'updatedAt']);
+      allow delete: if own(uid);
+    }
+
+    match /{collection}/{documentId} {
+      allow read, write: if false;
+    }
+  }
+}

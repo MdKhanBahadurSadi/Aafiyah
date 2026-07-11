@@ -20,9 +20,10 @@ import '../../features/diet/presentation/pages/diet_planner_screen.dart';
 import '../../features/diet/presentation/pages/diet_result_screen.dart';
 import '../../features/pill_identification/presentation/pages/pill_identification_screen.dart';
 import '../../features/mental_health/presentation/pages/mood_journal_screen.dart';
-import '../../features/prescription/presentation/pages/medication_reminder_screen.dart';
+import '../../features/medication_reminder/presentation/pages/medication_dashboard.dart';
 import '../../features/telemedicine/presentation/pages/telemedicine_screen.dart';
 import '../../features/gamification/presentation/pages/gamification_screen.dart';
+import '../../features/pharmacy/presentation/pages/medicine_pharmacy_home_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -46,7 +47,9 @@ class AppRouter {
       case AppRoutes.emergencyAlert:
         return MaterialPageRoute(builder: (_) => const EmergencyAlertScreen());
       case AppRoutes.prescriptionUpload:
-        return MaterialPageRoute(builder: (_) => const PrescriptionUploadScreen());
+        return MaterialPageRoute(
+          builder: (_) => const PrescriptionUploadScreen(),
+        );
       case AppRoutes.medicineDetail:
         return MaterialPageRoute(
           builder: (_) => const MedicineDetailScreen(),
@@ -60,7 +63,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const BloodPressureScreen());
       case AppRoutes.aiChat:
         return MaterialPageRoute(builder: (_) => const AIChatScreen());
-        
+
       case AppRoutes.labReport:
         return MaterialPageRoute(builder: (_) => const LabReportScreen());
 
@@ -70,13 +73,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const DietResultScreen());
 
       case AppRoutes.pillIdentification:
-        return MaterialPageRoute(builder: (_) => const PillIdentificationScreen());
+        return MaterialPageRoute(
+          builder: (_) => const PillIdentificationScreen(),
+        );
 
       case AppRoutes.mentalHealth:
         return MaterialPageRoute(builder: (_) => const MoodJournalScreen());
 
       case AppRoutes.medicationReminder:
-        return MaterialPageRoute(builder: (_) => const MedicationReminderScreen());
+        return MaterialPageRoute(builder: (_) => const MedicationDashboard());
 
       case AppRoutes.telemedicine:
         return MaterialPageRoute(builder: (_) => const TelemedicineScreen());
@@ -87,12 +92,15 @@ class AppRouter {
       case AppRoutes.gamification:
         return MaterialPageRoute(builder: (_) => const GamificationScreen());
 
+      case AppRoutes.medicinePharmacy:
+        return MaterialPageRoute(
+          builder: (_) => const MedicinePharmacyHomePage(),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
-            body: Center(
-              child: Text('No route defined for ${settings.name}'),
-            ),
+            body: Center(child: Text('No route defined for ${settings.name}')),
           ),
         );
     }

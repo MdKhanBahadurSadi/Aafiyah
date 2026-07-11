@@ -1,0 +1,15 @@
+{
+  "indexes": [
+    {"collectionGroup":"pharmacies","queryScope":"COLLECTION","fields":[{"fieldPath":"verificationStatus","order":"ASCENDING"},{"fieldPath":"latitude","order":"ASCENDING"},{"fieldPath":"longitude","order":"ASCENDING"}]},
+    {"collectionGroup":"pharmacies","queryScope":"COLLECTION","fields":[{"fieldPath":"verificationStatus","order":"ASCENDING"},{"fieldPath":"deliveryAvailable","order":"ASCENDING"},{"fieldPath":"latitude","order":"ASCENDING"},{"fieldPath":"longitude","order":"ASCENDING"}]},
+    {"collectionGroup":"pharmacyRequests","queryScope":"COLLECTION","fields":[{"fieldPath":"patientUid","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"pharmacyRequests","queryScope":"COLLECTION","fields":[{"fieldPath":"pharmacyIds","arrayConfig":"CONTAINS"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"pharmacyUsers","queryScope":"COLLECTION","fields":[{"fieldPath":"pharmacyId","order":"ASCENDING"},{"fieldPath":"status","order":"ASCENDING"}]},
+    {"collectionGroup":"pharmacyQuotes","queryScope":"COLLECTION","fields":[{"fieldPath":"requestId","order":"ASCENDING"},{"fieldPath":"patientUid","order":"ASCENDING"}]},
+    {"collectionGroup":"medicineOrders","queryScope":"COLLECTION","fields":[{"fieldPath":"patientUid","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"medicineOrders","queryScope":"COLLECTION","fields":[{"fieldPath":"pharmacyId","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"medicationPlans","queryScope":"COLLECTION","fields":[{"fieldPath":"patientUid","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"medicationPlans","queryScope":"COLLECTION","fields":[{"fieldPath":"active","order":"ASCENDING"},{"fieldPath":"reminderSentAt","order":"ASCENDING"},{"fieldPath":"remindAt","order":"ASCENDING"}]}
+  ],
+  "fieldOverrides": []
+}

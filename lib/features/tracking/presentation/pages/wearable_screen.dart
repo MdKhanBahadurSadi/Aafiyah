@@ -8,6 +8,8 @@ import 'package:aafiyah/core/widgets/glass_card.dart';
 import 'package:aafiyah/core/constants/app_spacing.dart';
 import 'package:aafiyah/features/gamification/gamification_state.dart';
 
+import 'package:aafiyah/core/widgets/permission_disclosure_dialog.dart';
+
 class WearableScreen extends StatefulWidget {
   const WearableScreen({super.key});
 
@@ -30,6 +32,26 @@ class _WearableScreenState extends State<WearableScreen> {
 
   Future<void> _checkPermissionsAndFetch() async {
     setState(() => _isLoading = true);
+    
+    // Google Play Requirement: Prominent Disclosure for Health Data
+    final bool? agreed = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const PermissionDisclosureDialog(
+        title: 'Health Data Access',
+        icon: Icons.health_and_safety_rounded,
+        message: 'Aafiyah uses your health data (steps, heart rate, sleep) from Google Fit or Apple Health to provide personalized health insights, tracking your progress, and rewarding your achievements. This data is processed locally and synced with our secure health dashboard.',
+      ),
+    );
+
+    if (agreed != true) {
+      setState(() {
+        _isLoading = false;
+        _isAuthorized = false;
+      });
+      return;
+    }
+
     final authorized = await _healthService.requestPermissions();
     setState(() => _isAuthorized = authorized);
 
